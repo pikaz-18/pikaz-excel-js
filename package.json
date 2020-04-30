@@ -1,14 +1,17 @@
 {
   "name": "pikaz-excel-js",
   "version": "0.1.0",
-  "private": true,
+  "private": false,
   "scripts": {
     "serve": "vue-cli-service serve",
     "build": "vue-cli-service build"
   },
   "dependencies": {
     "core-js": "^3.6.4",
-    "vue": "^2.6.11"
+    "file-saver": "^2.0.2",
+    "vue": "^2.6.11",
+    "xlsx": "^0.15.6",
+    "yxg-xlsx-style": "0.0.1"
   },
   "devDependencies": {
     "@vue/cli-plugin-babel": "~4.3.0",

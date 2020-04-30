@@ -1,28 +1,31 @@
+<!--
+ * @Author: zouzheng
+ * @Date: 2020-04-30 11:23:07
+ * @LastEditors: zouzheng
+ * @LastEditTime: 2020-04-30 15:16:19
+ * @Description: 这是XXX组件（页面）
+ -->
 <template>
   <div id="app">
-    <img alt="Vue logo" src="./assets/logo.png">
-    <HelloWorld msg="Welcome to Your Vue.js App"/>
+    <div class="ep">
+      <excel-export></excel-export>
+      <excel-import></excel-import>
+    </div>
   </div>
 </template>
 
 <script>
-import HelloWorld from './components/HelloWorld.vue'
-
+import ExcelExport from '../src/plugin/excelExport'
+import ExcelImport from '../src/plugin/excelImport'
 export default {
   name: 'App',
-  components: {
-    HelloWorld
-  }
+  components: { ExcelExport, ExcelImport }
 }
 </script>
 
 <style>
-#app {
-  font-family: Avenir, Helvetica, Arial, sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  text-align: center;
-  color: #2c3e50;
-  margin-top: 60px;
+.ep {
+  width: 100px;
+  height: 100px;
 }
 </style>
