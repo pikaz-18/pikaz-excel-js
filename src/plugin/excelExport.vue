@@ -2,7 +2,7 @@
  * @Author: zouzheng
  * @Date: 2020-04-30 11:42:13
  * @LastEditors: zouzheng
- * @LastEditTime: 2020-04-30 15:11:28
+ * @LastEditTime: 2020-04-30 17:48:13
  * @Description: 这是excel导出组件（页面）
  -->
 <template>
@@ -55,7 +55,7 @@ export default {
           merges: ['A1:I1', 'A2:B2'],
           // 列宽自适应
           autoWidth: true,
-          sheetName: ''
+          sheetName: '表1'
         }
       ]
     }
@@ -108,7 +108,6 @@ export default {
       var epoch = Date.parse(v);
       return (epoch - new Date(Date.UTC(1899, 11, 30))) / (24 * 60 * 60 * 1000);
     },
-
     sheet_from_array_of_arrays (data, opts) {
       var ws = {};
       var range = {
@@ -242,7 +241,7 @@ export default {
           style: 'thin'
         }
       };
-      //给所以单元格加上边框
+      //给所有单元格加上边框
       for (var i in dataInfo) {
         if (i == '!ref' || i == '!merges' || i == '!cols' || i == 'A1') {
 
@@ -266,22 +265,22 @@ export default {
       })
 
       //设置主标题样式
-      dataInfo["A1"].s = {
+      dataInfo["A2"].s = {
         font: {
           name: '宋体',
-          sz: 18,
+          sz: 12,
           color: { rgb: "ff0000" },
           bold: true,
           italic: false,
           underline: false
         },
         alignment: {
-          horizontal: "center",
-          vertical: "center"
+          horizontal: "top",
+          vertical: "right"
         },
-        // fill: {
-        //   fgColor: { rgb: "008000" },
-        // },
+        fill: {
+          fgColor: { rgb: "008000" },
+        },
       };
 
       var wbout = XLSX.write(wb, {
@@ -300,8 +299,4 @@ export default {
 </script>
 
 <style scoped>
-.excel-export-component {
-  width: 100%;
-  height: 100%;
-}
 </style>

@@ -24,8 +24,4 @@ export default {
 </script>
 
 <style>
-.ep {
-  width: 100px;
-  height: 100px;
-}
 </style>

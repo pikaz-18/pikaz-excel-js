@@ -2,50 +2,67 @@
  * @Author: zouzheng
  * @Date: 2020-04-30 15:05:31
  * @LastEditors: zouzheng
- * @LastEditTime: 2020-04-30 15:15:36
+ * @LastEditTime: 2020-04-30 17:39:34
  * @Description: 这是excel导入组件（页面）
  -->
 <template>
-  <div>
-    <input type="file" @change="importFile(this)" id="imFile" style="display: none"
-      accept="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet, application/vnd.ms-excel" />
-    <Button type="primary" @click="uploadFile">导入</Button>
+  <div class="excel-import-component">
+    <input type="file" @change="importFile(this)" id="importFile" style="display: none" accept=".xls,.xlsx" />
+    <button @click="uploadFile">导入</button>
   </div>
 </template>
 
 <script>
+import XLSX from 'xlsx'
 export default {
   props: {},
   components: {},
   data () {
     return {
-      fullscreenLoading: false, // 加载中
-      imFile: "", // 导入文件el
-      errorMsg: "", // 错误信息内容
+      imFile: '',
+      beforeUpload: (e) => {
+        // return false
+      }
     }
   },
   created () {
   },
   mounted () {
-    this.imFile = document.getElementById("imFile");
+    this.imFile = document.getElementById("importFile")
   },
   methods: {
-    uploadFile: function () {
+    uploadFile () {
       // 点击导入按钮
       this.imFile.click();
     },
-
-    importFile: function () {
+    /**
+     * @name: 导入文件
+     * @param {type} 
+     * @return: 
+     */
+    importFile () {
       // 导入excel
-      this.fullscreenLoading = true;
       let obj = this.imFile;
+      // 导入前
+      // if (!this.beforeUpload()) {
+      //   return
+      // }
+      const before = this.beforeUpload()
+      if (before === false) {
+        return
+      }
+      console.log(obj.files[0])
+      // 无导入文件
       if (!obj.files) {
-        this.fullscreenLoading = false;
         return;
       }
       var f = obj.files[0];
       var reader = new FileReader();
       let $t = this;
+      // 导入时
+      reader.onprogress = function (e) {
+        console.log(e)
+      }
       reader.onload = function (e) {
         var data = e.target.result;
         if ($t.rABS) {
@@ -68,19 +85,21 @@ export default {
         reader.readAsBinaryString(f);
       }
     },
-    dealFile: function (data) {
+    dealFile (data) {
       // 处理导入的数据
       this.imFile.value = "";
-      this.fullscreenLoading = false;
       if (data.length <= 0) {
-        this.errorMsg = "请导入正确信息";
+        // 导入失败
       } else {
         //导入成功，处理数据
       }
     },
-
-    fixdata: function (data) {
-      // 文件流转BinaryString
+    /**
+     * @name: 文件流转BinaryString
+     * @param {type} 
+     * @return: 
+     */
+    fixdata (data) {
       var o = "";
       var l = 0;
       var w = 10240;
@@ -99,5 +118,5 @@ export default {
 }
 </script>
 
-<style lang='less' scoped>
+<style scoped>
 </style>
