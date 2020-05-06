@@ -1,15 +1,26 @@
 {
   "name": "pikaz-excel-js",
-  "version": "0.2.0",
-  "description": "vue - based excel import and export plugin",
+  "version": "0.2.1",
+  "description": "A Excel Component for Vue.js",
   "private": false,
   "main": "lib/PikazJsExcel.umd.min.js",
-  "keyword": "vue js excel import export plugin",
+  "keywords": [
+    "excel",
+    "vue",
+    "components"
+  ],
+  "license": "MIT",
   "author": "pikaz",
   "scripts": {
     "serve": "vue-cli-service serve",
-    "build": "vue-cli-service build",
     "lib": "vue-cli-service build --target lib --name PikazJsExcel --dest lib  src/plugin/index.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/pikaz-18/pikaz-excel-js.git"
+  },
+  "bugs": {
+    "url": "https://github.com/pikaz-18/pikaz-excel-js/issues"
   },
   "dependencies": {
     "core-js": "^3.6.4",
