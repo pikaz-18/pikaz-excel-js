@@ -2,7 +2,7 @@
  * @Author: zouzheng
  * @Date: 2020-04-30 11:42:13
  * @LastEditors: zouzheng
- * @LastEditTime: 2020-04-30 17:48:13
+ * @LastEditTime: 2020-05-06 14:49:24
  * @Description: 这是excel导出组件（页面）
  -->
 <template>
@@ -25,39 +25,113 @@ export default {
   components: {},
   data () {
     return {
-      // 标题
-      title: ['测试', '', '', '', '', '', '', '', ''],
-      // 表头
-      tHeader: ['测试一', '', '测试二', '测试二', '测试二', '测试二', '测试二', '测试二', '测试二'],
-      // 表格数据
-      table: [{ NAME: '123', VESSEL_LENGTH: '123', CARGO_NAME: '123', 'DEADWEIGHT_TONNAGE': 1, 'NET_TONNAGE': 2, 'ANCHORAGE_ID': 4, 'EXP_ARCHORAGE_TIME': 5, 'AC_ARCHORAGE_TIME': 6, 'RECOMMEND_BERTH': 3 }],
-      // 数据对应的键名
-      keys: ['NAME', 'VESSEL_LENGTH', 'CARGO_NAME', 'DEADWEIGHT_TONNAGE', 'NET_TONNAGE', 'ANCHORAGE_ID', 'EXP_ARCHORAGE_TIME', 'AC_ARCHORAGE_TIME', 'RECOMMEND_BERTH'],
-      // 合并单元格
-      merges: ['A1:I1', 'A2:B2'],
-      // 列宽自适应
-      autoWidth: true,
-      sheetName: '',
       // 文件类型
       bookType: 'xlsx',
-      filename: '测试',
+      // 文件名
+      filename: 'excel',
+      // 表格配置
       sheet: [
         {
           // 标题
           title: ['测试', '', '', '', '', '', '', '', ''],
           // 表头
-          tHeader: ['测试一', '', '测试二', '测试二', '测试二', '测试二', '测试二', '测试二', '测试二'],
+          tHeader: ['测试一', '测试一', '测试二322', '测试二', '测试二123', '测试二', '测试二223', '测试二', '测试二'],
           // 表格数据
-          table: [{ NAME: '123', VESSEL_LENGTH: '123', CARGO_NAME: '123', 'DEADWEIGHT_TONNAGE': 1, 'NET_TONNAGE': 2, 'ANCHORAGE_ID': 4, 'EXP_ARCHORAGE_TIME': 5, 'AC_ARCHORAGE_TIME': 6, 'RECOMMEND_BERTH': 3 }],
+          table: [{ NAME: '', VESSEL_LENGTH: 'weqeqeeweqewqewqwe', CARGO_NAME: '123', 'DEADWEIGHT_TONNAGE': 1, 'NET_TONNAGE': 2, 'ANCHORAGE_ID': 4, 'EXP_ARCHORAGE_TIME': 5, 'AC_ARCHORAGE_TIME': 6, 'RECOMMEND_BERTH': 3 }],
           // 数据对应的键名
           keys: ['NAME', 'VESSEL_LENGTH', 'CARGO_NAME', 'DEADWEIGHT_TONNAGE', 'NET_TONNAGE', 'ANCHORAGE_ID', 'EXP_ARCHORAGE_TIME', 'AC_ARCHORAGE_TIME', 'RECOMMEND_BERTH'],
           // 合并单元格
-          merges: ['A1:I1', 'A2:B2'],
-          // 列宽自适应
-          autoWidth: true,
-          sheetName: '表1'
+          merges: ['A1:I1'],
+          // 列宽
+          // colWidth: [8, 8, 8, 8, 8, 8, 8, 8, 8],
+          // 表名
+          sheetName: '表1',
+          // 全局样式
+          globalStyle: {
+            // 边框
+            border: {
+              top: {
+                style: 'thin'
+              },
+              bottom: {
+                style: 'thin'
+              },
+              left: {
+                style: 'thin'
+              },
+              right: {
+                style: 'thin'
+              }
+            },
+            // 文字格式
+            font: {
+              // 字体
+              name: '宋体',
+              // 字号
+              sz: 12,
+              // 字体颜色
+              color: { rgb: "000000" },
+              // 粗体
+              bold: false,
+              // 斜体
+              italic: false,
+              // 下划线
+              underline: false
+            },
+            // 对齐方式
+            alignment: {
+              // 水平方向
+              horizontal: "center",
+              // 垂直方向
+              vertical: "center"
+            },
+            // 背景色
+            fill: {
+              fgColor: { rgb: "ffffff" },
+            }
+          },
+          // 单个单元格样式
+          cellStyle: []
         }
-      ]
+      ],
+      // 默认配置
+      default: {
+        sheetName: new Date().getTime(),
+        globalStyle: {
+          border: {
+            top: {
+              style: 'thin'
+            },
+            bottom: {
+              style: 'thin'
+            },
+            left: {
+              style: 'thin'
+            },
+            right: {
+              style: 'thin'
+            }
+          },
+          font: {
+            name: '宋体',
+            sz: 12,
+            color: { rgb: "000000" },
+            bold: false,
+            italic: false,
+            underline: false
+          },
+          alignment: {
+            horizontal: "center",
+            vertical: "center"
+          },
+          fill: {
+            fgColor: { rgb: "ffffff" },
+          }
+        },
+      },
+      enum: {
+        bookType: ['xlsx', 'xls']
+      }
     }
   },
   created () {
@@ -66,37 +140,7 @@ export default {
   },
   methods: {
     exportExcel () {
-      const tHeader = this.tHeader
-      const title = this.title
-      //表头对应字段
-      const filterVal = this.keys
-      const list = this.table
-      const data = this.formatJson(filterVal, list)
-      data.map(item => {
-        item.map((i, index) => {
-          if (!i) {
-            item[index] = ''
-          }
-        })
-      })
-      const merges = this.merges
-      this.export_json_to_excel({
-        title: title,
-        header: tHeader,
-        data,
-        merges,
-        filename: this.filename,
-        autoWidth: this.autoWidth,
-        bookType: this.bookType
-      })
-    },
-    /**
-     * @name: 转化数据格式
-     * @param {type} 
-     * @return: 
-     */
-    formatJson (filterVal, jsonData) {
-      return jsonData.map(v => filterVal.map(j => v[j]))
+      this.export_json_to_excel()
     },
     /**
      * @name: 转化时间格式
@@ -105,12 +149,17 @@ export default {
      */
     datenum (v, date1904) {
       if (date1904) v += 1462;
-      var epoch = Date.parse(v);
+      const epoch = Date.parse(v);
       return (epoch - new Date(Date.UTC(1899, 11, 30))) / (24 * 60 * 60 * 1000);
     },
+    /**
+     * @name: 设置数据类型
+     * @param {type} 
+     * @return: 
+     */
     sheet_from_array_of_arrays (data, opts) {
-      var ws = {};
-      var range = {
+      let ws = {};
+      const range = {
         s: {
           c: 1000000000,
           r: 1000000000
@@ -120,17 +169,17 @@ export default {
           r: 0
         }
       };
-      for (var R = 0; R != data.length; ++R) {
-        for (var C = 0; C != data[R].length; ++C) {
+      for (let R = 0; R != data.length; ++R) {
+        for (let C = 0; C != data[R].length; ++C) {
           if (range.s.r > R) range.s.r = R;
           if (range.s.c > C) range.s.c = C;
           if (range.e.r < R) range.e.r = R;
           if (range.e.c < C) range.e.c = C;
-          var cell = {
+          let cell = {
             v: data[R][C]
           };
           if (cell.v == null) continue;
-          var cell_ref = XLSX.utils.encode_cell({
+          let cell_ref = XLSX.utils.encode_cell({
             c: C,
             r: R
           });
@@ -150,11 +199,15 @@ export default {
       return ws;
     },
 
-
+    /**
+     * @name: 转换类型
+     * @param {type} 
+     * @return: 
+     */
     s2ab (s) {
-      var buf = new ArrayBuffer(s.length);
-      var view = new Uint8Array(buf);
-      for (var i = 0; i != s.length; ++i) view[i] = s.charCodeAt(i) & 0xFF;
+      const buf = new ArrayBuffer(s.length);
+      const view = new Uint8Array(buf);
+      for (let i = 0; i != s.length; ++i) view[i] = s.charCodeAt(i) & 0xFF;
       return buf;
     },
 
@@ -163,127 +216,124 @@ export default {
      * @param {type} 
      * @return: 
      */
-    export_json_to_excel ({
-      title,
-      header,
-      data,
-      filename,
-      merges = [],
-      autoWidth = true,
-      bookType = 'xlsx',
-      SheetName = 'SheetJS'
-    } = {}) {
-      /* original data */
-      filename = filename || 'excel'
-      data = [...data]
-      data.unshift(header);
-      data.unshift(title);
-
-      var ws_name = SheetName;
-      var wb = new Workbook(),
-        ws = this.sheet_from_array_of_arrays(data);
-
-      if (merges.length > 0) {
-        if (!ws['!merges']) ws['!merges'] = [];
-        merges.forEach(item => {
-          ws['!merges'].push(XLSX.utils.decode_range(item))
-        })
+    export_json_to_excel () {
+      if (!this.sheet || this.sheet.length <= 0) {
+        return
       }
+      const wb = new Workbook()
+      this.sheet.forEach((item, index) => {
+        let {
+          title,
+          tHeader,
+          table,
+          merges,
+          keys,
+          colWidth,
+          sheetName,
+          globalStyle,
+          cellStyle
+        } = item
+        sheetName = sheetName || this.default.sheetName
+        globalStyle = globalStyle || this.default.globalStyle
+        //表头对应字段
+        let data = table.map(v => keys.map(j => v[j]))
+        data.unshift(tHeader);
+        data.unshift(title);
 
-      if (autoWidth) {
-        /*设置worksheet每列的最大宽度*/
-        const colWidth = data.map(row => row.map(val => {
-          /*先判断是否为null/undefined*/
-          if (val == null) {
-            return {
-              'wch': 10
-            };
-          }
-          /*再判断是否为中文*/
-          else if (val.toString().charCodeAt(0) > 255) {
-            return {
-              'wch': val.toString().length * 2
-            };
-          } else {
-            return {
-              'wch': val.toString().length
-            };
-          }
-        }))
-        /*以第一行为初始值*/
-        let result = colWidth[0];
-        for (let i = 1; i < colWidth.length; i++) {
-          for (let j = 0; j < colWidth[i].length; j++) {
-            if (result[j]['wch'] < colWidth[i][j]['wch']) {
-              result[j]['wch'] = colWidth[i][j]['wch'];
+        const ws = this.sheet_from_array_of_arrays(data);
+        if (merges.length > 0) {
+          if (!ws['!merges']) ws['!merges'] = [];
+          merges.forEach(item => {
+            ws['!merges'].push(XLSX.utils.decode_range(item))
+          })
+        }
+        // 如果没有列宽则自适应
+        if (!colWidth) {
+          // 基准比例，以12为标准
+          const benchmarkRate = globalStyle.font.sz / 12
+          //设置worksheet每列的最大宽度,并+2调整一点列宽
+          const sheetColWidth = data.map(row => row.map(val => {
+            /*先判断是否为null/undefined*/
+            if (val == null) {
+              return {
+                'wch': 10 * benchmarkRate + 2
+              };
+            }
+            /*再判断是否为中文*/
+            else if (val.toString().charCodeAt(0) > 255) {
+              return {
+                'wch': val.toString().length * 2 * benchmarkRate + 2
+              };
+            } else {
+              return {
+                'wch': val.toString().length * benchmarkRate + 2
+              };
+            }
+          }))
+          /*以第一行为初始值*/
+          let result = sheetColWidth[0];
+          for (let i = 1; i < sheetColWidth.length; i++) {
+            for (let j = 0; j < sheetColWidth[i].length; j++) {
+              if (result[j]['wch'] < sheetColWidth[i][j]['wch']) {
+                result[j]['wch'] = sheetColWidth[i][j]['wch'];
+              }
             }
           }
-        }
-        ws['!cols'] = result;
-      }
-
-      /* add worksheet to workbook */
-      wb.SheetNames.push(ws_name);
-      wb.Sheets[ws_name] = ws;
-      var dataInfo = wb.Sheets[wb.SheetNames[0]];
-
-      const borderAll = {  //单元格外侧框线
-        top: {
-          style: 'thin'
-        },
-        bottom: {
-          style: 'thin'
-        },
-        left: {
-          style: 'thin'
-        },
-        right: {
-          style: 'thin'
-        }
-      };
-      //给所有单元格加上边框
-      for (var i in dataInfo) {
-        if (i == '!ref' || i == '!merges' || i == '!cols' || i == 'A1') {
-
+          ws['!cols'] = result;
         } else {
-          dataInfo[i + ''].s = {
-            border: borderAll
+          ws['!cols'] = colWidth.map(i => {
+            return { wch: i }
+          })
+        }
+
+        /* add worksheet to workbook */
+        wb.SheetNames.push(sheetName);
+        wb.Sheets[sheetName] = ws;
+        let dataInfo = wb.Sheets[wb.SheetNames[index]];
+
+        //全局样式
+        (function () {
+          const { border, font, alignment, fill } = globalStyle;
+          Object.keys(dataInfo).forEach(i => {
+            if (i == '!ref' || i == '!merges' || i == '!cols') {
+            } else {
+              dataInfo[i.toString()].s = {
+                border,
+                font,
+                alignment,
+                fill
+              }
+            }
+          });
+        })();
+
+        // 单个样式
+        (function () {
+          if (!cellStyle || cellStyle.length <= 0) {
+            return
           }
-        }
-      }
-
-      // 去掉标题边框
-      let arr = ["A1", "B1", "C1", "D1", "E1", "F1", "G1", "H1", "I1", "J1", "K1", "L1", "M1", "N1", "O1", "P1", "Q1", "R1", "S1", "T1", "U1", "V1", "W1", "X1", "Y1", "Z1"];
-      arr.some(function (v) {
-        let a = merges[0].split(':')
-        if (v == a[1]) {
-          dataInfo[v].s = {}
-          return true;
-        } else {
-          dataInfo[v].s = {}
-        }
+          const { border, font, alignment, fill } = cellStyle;
+          cellStyle.forEach(s => {
+            dataInfo[s.cell].s = {
+              border,
+              font,
+              alignment,
+              fill
+            }
+          });
+        })();
       })
-
-      //设置主标题样式
-      dataInfo["A2"].s = {
-        font: {
-          name: '宋体',
-          sz: 12,
-          color: { rgb: "ff0000" },
-          bold: true,
-          italic: false,
-          underline: false
-        },
-        alignment: {
-          horizontal: "top",
-          vertical: "right"
-        },
-        fill: {
-          fgColor: { rgb: "008000" },
-        },
-      };
-
-      var wbout = XLSX.write(wb, {
+      // 类型默认为xlsx
+      let bookType = this.enum.bookType.filter(i => i === this.bookType)[0] || this.enum.bookType[0];
+      this.writeExcel(wb, bookType, this.filename)
+    },
+    /**
+     * @name: 导出excel文件
+     * @param {type} 
+     * @return: 
+     */
+    writeExcel (wb, bookType, filename) {
+      const wbout = XLSX.write(wb, {
         bookType: bookType,
         bookSST: false,
         type: 'binary'

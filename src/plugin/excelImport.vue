@@ -2,7 +2,7 @@
  * @Author: zouzheng
  * @Date: 2020-04-30 15:05:31
  * @LastEditors: zouzheng
- * @LastEditTime: 2020-04-30 17:39:34
+ * @LastEditTime: 2020-05-06 09:53:38
  * @Description: 这是excel导入组件（页面）
  -->
 <template>
@@ -20,7 +20,7 @@ export default {
   data () {
     return {
       imFile: '',
-      beforeUpload: (e) => {
+      'before-upload': (e) => {
         // return false
       }
     }
