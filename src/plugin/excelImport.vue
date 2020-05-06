@@ -2,26 +2,53 @@
  * @Author: zouzheng
  * @Date: 2020-04-30 15:05:31
  * @LastEditors: zouzheng
- * @LastEditTime: 2020-05-06 09:53:38
+ * @LastEditTime: 2020-05-06 17:25:57
  * @Description: 这是excel导入组件（页面）
  -->
 <template>
-  <div class="excel-import-component">
+  <div class="excel-import" @click="importFileClick">
     <input type="file" @change="importFile(this)" id="importFile" style="display: none" accept=".xls,.xlsx" />
-    <button @click="uploadFile">导入</button>
+    <slot></slot>
+    <button>导入</button>
   </div>
 </template>
 
 <script>
 import XLSX from 'xlsx'
 export default {
-  props: {},
+  props: {
+    //  导入前
+    beforeImport: {
+      type: Function,
+      default: () => { }
+    },
+    // 导入时
+    onProgress: {
+      type: Function,
+      default: () => { }
+    },
+    // 状态改变
+    onChange: {
+      type: Function,
+      default: () => { }
+    },
+    onSuccess: {
+      type: Function,
+      default: () => { }
+    },
+    onError: {
+      type: Function,
+      default: () => { }
+    }
+  },
   components: {},
   data () {
     return {
       imFile: '',
-      'before-upload': (e) => {
-        // return false
+      // 枚举类
+      enum: {
+        // 文件类型
+        bookType: ['xlsx', 'xls']
       }
     }
   },
@@ -31,8 +58,12 @@ export default {
     this.imFile = document.getElementById("importFile")
   },
   methods: {
-    uploadFile () {
-      // 点击导入按钮
+    /**
+     * @name: 点击导入按钮
+     * @param {type} 
+     * @return: 
+     */
+    importFileClick () {
       this.imFile.click();
     },
     /**
@@ -42,29 +73,40 @@ export default {
      */
     importFile () {
       // 导入excel
-      let obj = this.imFile;
-      // 导入前
-      // if (!this.beforeUpload()) {
-      //   return
-      // }
-      const before = this.beforeUpload()
-      if (before === false) {
-        return
-      }
-      console.log(obj.files[0])
+      const obj = this.imFile;
       // 无导入文件
       if (!obj.files) {
-        return;
+        this.onError('No imported file')
+        return
       }
-      var f = obj.files[0];
-      var reader = new FileReader();
-      let $t = this;
+      const file = obj.files[0];
+      // 导入前
+      const beforeImport = this.beforeImport(file)
+      this.onChange(file)
+      if (beforeImport === false) {
+        return
+      }
+      // 文件类型必须为xlsx或者xls
+      const bookType = file.name.substr(file.name.length - 4, file.name.length - 1)
+      const type = this.emum.bookType.some(e => {
+        if (bookType.indexOf(e)) {
+          return true
+        }
+        return false
+      })
+      if (!type) {
+        this.onError('The file type must be "xlsx" or "xls"', file)
+        return
+      }
+      const reader = new FileReader();
+      const $t = this;
       // 导入时
-      reader.onprogress = function (e) {
-        console.log(e)
+      reader.onprogress = e => {
+        this.onProgress(e, file)
       }
-      reader.onload = function (e) {
-        var data = e.target.result;
+      // 导入完成
+      reader.onload = e => {
+        const data = e.target.result;
         if ($t.rABS) {
           $t.wb = XLSX.read(btoa(this.fixdata(data)), {
             // 手动转化
@@ -76,22 +118,31 @@ export default {
           });
         }
         let json = XLSX.utils.sheet_to_json($t.wb.Sheets[$t.wb.SheetNames[0]]);
-        console.log(json)
-        $t.dealFile(json); // analyzeData: 解析导入数据
+        $t.dealFile(json, file); // 解析导入数据
       };
       if (this.rABS) {
-        reader.readAsArrayBuffer(f);
+        reader.readAsArrayBuffer(file);
       } else {
-        reader.readAsBinaryString(f);
+        reader.readAsBinaryString(file);
       }
     },
-    dealFile (data) {
-      // 处理导入的数据
+    /**
+     * @name: 处理导入的数据
+     * @param {type} 
+     * @return: 
+     */
+    dealFile (data, file) {
       this.imFile.value = "";
       if (data.length <= 0) {
         // 导入失败
+        this.onChange(file)
+        this.onError('The import failed', file)
+        return
       } else {
-        //导入成功，处理数据
+        //导入成功
+        this.onChange(file)
+        this.onSuccess(data, file)
+        return
       }
     },
     /**
@@ -100,9 +151,9 @@ export default {
      * @return: 
      */
     fixdata (data) {
-      var o = "";
-      var l = 0;
-      var w = 10240;
+      const o = "";
+      const l = 0;
+      const w = 10240;
       for (; l < data.byteLength / w; ++l) {
         o += String.fromCharCode.apply(
           null,

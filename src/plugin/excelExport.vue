@@ -2,12 +2,12 @@
  * @Author: zouzheng
  * @Date: 2020-04-30 11:42:13
  * @LastEditors: zouzheng
- * @LastEditTime: 2020-05-06 14:49:24
+ * @LastEditTime: 2020-05-06 16:58:36
  * @Description: 这是excel导出组件（页面）
  -->
 <template>
-  <div class="excel-export-component" @click="exportExcel">
-    <button class="btn">导出</button>
+  <div class="excel-export" @click="exportExcel">
+    <slot></slot>
   </div>
 </template>
 
@@ -21,79 +21,45 @@ function Workbook () {
 import { saveAs } from 'file-saver'
 import XLSX from 'yxg-xlsx-style'
 export default {
-  props: {},
+  props: {
+    // 文件类型
+    bookType: {
+      type: String,
+      default: 'xlsx'
+    },
+    // 文件名
+    filename: {
+      type: String,
+      default: 'excel'
+    },
+    // 表格配置
+    sheet: {
+      type: Array,
+      default: () => {
+        return []
+      }
+    },
+    // 开始前
+    beforeStart: {
+      type: Function,
+      // bookType:文件类型,filename:文件名,sheet:表格数据
+      default: (bookType, filename, sheet) => { }
+    },
+    // 导出前
+    beforeExport: {
+      type: Function,
+      // filename:文件名,sheet:表格数据,blob:文件流
+      default: (bookType, filename, blob) => { }
+    },
+    onError: {
+      type: Function,
+      // err:错误信息
+      default: (err) => { }
+    }
+  },
   components: {},
   data () {
     return {
-      // 文件类型
-      bookType: 'xlsx',
-      // 文件名
-      filename: 'excel',
-      // 表格配置
-      sheet: [
-        {
-          // 标题
-          title: ['测试', '', '', '', '', '', '', '', ''],
-          // 表头
-          tHeader: ['测试一', '测试一', '测试二322', '测试二', '测试二123', '测试二', '测试二223', '测试二', '测试二'],
-          // 表格数据
-          table: [{ NAME: '', VESSEL_LENGTH: 'weqeqeeweqewqewqwe', CARGO_NAME: '123', 'DEADWEIGHT_TONNAGE': 1, 'NET_TONNAGE': 2, 'ANCHORAGE_ID': 4, 'EXP_ARCHORAGE_TIME': 5, 'AC_ARCHORAGE_TIME': 6, 'RECOMMEND_BERTH': 3 }],
-          // 数据对应的键名
-          keys: ['NAME', 'VESSEL_LENGTH', 'CARGO_NAME', 'DEADWEIGHT_TONNAGE', 'NET_TONNAGE', 'ANCHORAGE_ID', 'EXP_ARCHORAGE_TIME', 'AC_ARCHORAGE_TIME', 'RECOMMEND_BERTH'],
-          // 合并单元格
-          merges: ['A1:I1'],
-          // 列宽
-          // colWidth: [8, 8, 8, 8, 8, 8, 8, 8, 8],
-          // 表名
-          sheetName: '表1',
-          // 全局样式
-          globalStyle: {
-            // 边框
-            border: {
-              top: {
-                style: 'thin'
-              },
-              bottom: {
-                style: 'thin'
-              },
-              left: {
-                style: 'thin'
-              },
-              right: {
-                style: 'thin'
-              }
-            },
-            // 文字格式
-            font: {
-              // 字体
-              name: '宋体',
-              // 字号
-              sz: 12,
-              // 字体颜色
-              color: { rgb: "000000" },
-              // 粗体
-              bold: false,
-              // 斜体
-              italic: false,
-              // 下划线
-              underline: false
-            },
-            // 对齐方式
-            alignment: {
-              // 水平方向
-              horizontal: "center",
-              // 垂直方向
-              vertical: "center"
-            },
-            // 背景色
-            fill: {
-              fgColor: { rgb: "ffffff" },
-            }
-          },
-          // 单个单元格样式
-          cellStyle: []
-        }
-      ],
       // 默认配置
       default: {
         sheetName: new Date().getTime(),
@@ -129,7 +95,9 @@ export default {
           }
         },
       },
+      // 枚举类
       enum: {
+        // 文件类型
         bookType: ['xlsx', 'xls']
       }
     }
@@ -139,9 +107,6 @@ export default {
   mounted () {
   },
   methods: {
-    exportExcel () {
-      this.export_json_to_excel()
-    },
     /**
      * @name: 转化时间格式
      * @param {type} 
@@ -200,7 +165,7 @@ export default {
     },
 
     /**
-     * @name: 转换类型
+     * @name: 转换格式
      * @param {type} 
      * @return: 
      */
@@ -216,8 +181,13 @@ export default {
      * @param {type} 
      * @return: 
      */
-    export_json_to_excel () {
+    exportExcel () {
+      const beforeStart = this.beforeStart(this.bookType, this.filename, this.sheet)
+      if (beforeStart === false) {
+        return
+      }
       if (!this.sheet || this.sheet.length <= 0) {
+        this.onError('Table data cannot be empty')
         return
       }
       const wb = new Workbook()
@@ -239,7 +209,6 @@ export default {
         let data = table.map(v => keys.map(j => v[j]))
         data.unshift(tHeader);
         data.unshift(title);
-
         const ws = this.sheet_from_array_of_arrays(data);
         if (merges.length > 0) {
           if (!ws['!merges']) ws['!merges'] = [];
@@ -333,14 +302,19 @@ export default {
      * @return: 
      */
     writeExcel (wb, bookType, filename) {
+      if (beforeExport === false) {
+        return
+      }
       const wbout = XLSX.write(wb, {
         bookType: bookType,
         bookSST: false,
         type: 'binary'
       });
-      saveAs(new Blob([this.s2ab(wbout)], {
+      const blob = new Blob([this.s2ab(wbout)], {
         type: "application/octet-stream"
-      }), `${filename}.${bookType}`);
+      })
+      const beforeExport = this.beforeExport(blob, bookType, filename)
+      saveAs(blob, `${filename}.${bookType}`);
     }
   },
   computed: {},
