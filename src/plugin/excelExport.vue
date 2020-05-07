@@ -2,7 +2,7 @@
  * @Author: zouzheng
  * @Date: 2020-04-30 11:42:13
  * @LastEditors: zouzheng
- * @LastEditTime: 2020-05-07 09:51:40
+ * @LastEditTime: 2020-05-07 14:08:21
  * @Description: 这是excel导出组件（页面）
  -->
 <template>
@@ -39,7 +39,7 @@ export default {
         return []
       }
     },
-    // 开始前
+    // 处理数据前
     beforeStart: {
       type: Function,
       // bookType:文件类型,filename:文件名,sheet:表格数据
@@ -62,7 +62,7 @@ export default {
     return {
       // 默认配置
       default: {
-        sheetName: new Date().getTime(),
+        sheetName: 'sheet' + new Date().getTime(),
         globalStyle: {
           border: {
             top: {
@@ -195,6 +195,7 @@ export default {
         let {
           title,
           tHeader,
+          multiHeader,
           table,
           merges,
           keys,
@@ -205,12 +206,26 @@ export default {
         } = item
         sheetName = sheetName || this.default.sheetName
         globalStyle = globalStyle || this.default.globalStyle
+        // 处理标题格式
+        if (title || title === 0 || title === '') {
+          // 取表头、多级表头中的最大值
+          const tHeaderLength = tHeader && tHeader.length || 0
+          const multiHeaderLength = multiHeader && Math.max(...multiHeader.map(m => m.length)) || 0
+          const titleLength = Math.max(tHeaderLength, multiHeaderLength)
+          // 第一个元素为title，剩余以空字符串填充
+          title = [title].concat(Array(titleLength - 1).fill(''))
+          // 若没有合并，则默认处理标题的合并
+          if (!merges) {
+            const mergeSecond = String.fromCharCode(64 + titleLength) + '1'
+            merges = [`A1:${mergeSecond}`]
+          }
+        }
         //表头对应字段
         let data = table.map(v => keys.map(j => v[j]))
-        data.unshift(tHeader);
-        data.unshift(title);
+        tHeader && data.unshift(tHeader);
+        title && data.unshift(title);
         const ws = this.sheet_from_array_of_arrays(data);
-        if (merges.length > 0) {
+        if (merges && merges.length > 0) {
           if (!ws['!merges']) ws['!merges'] = [];
           merges.forEach(item => {
             ws['!merges'].push(XLSX.utils.decode_range(item))
@@ -302,9 +317,6 @@ export default {
      * @return: 
      */
     writeExcel (wb, bookType, filename) {
-      if (beforeExport === false) {
-        return
-      }
       const wbout = XLSX.write(wb, {
         bookType: bookType,
         bookSST: false,
@@ -314,6 +326,9 @@ export default {
         type: "application/octet-stream"
       })
       const beforeExport = this.beforeExport(blob, bookType, filename)
+      if (beforeExport === false) {
+        return
+      }
       saveAs(blob, `${filename}.${bookType}`);
     }
   },

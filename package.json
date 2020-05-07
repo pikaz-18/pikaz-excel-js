@@ -12,8 +12,9 @@
   "license": "MIT",
   "author": "pikaz",
   "scripts": {
-    "serve": "vue-cli-service serve",
-    "lib": "vue-cli-service build --target lib --name PikazJsExcel --dest lib  src/plugin/index.js"
+    "serve": "vue-cli-service serve src/example/main.js",
+    "build": "vue-cli-service build --dest example src/example/main.js",
+    "lib": "vue-cli-service build --target lib --name PikazJsExcel --dest lib src/plugin/index.js"
   },
   "repository": {
     "type": "git",
