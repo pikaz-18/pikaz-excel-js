@@ -2,12 +2,12 @@
  * @Author: zouzheng
  * @Date: 2020-04-30 11:23:12
  * @LastEditors: zouzheng
- * @LastEditTime: 2020-05-07 17:03:53
+ * @LastEditTime: 2020-05-07 17:17:15
  * @Description: 这是XXX组件（页面）
  -->
 ## Introduction
 
-这个项目是在工作中并没有找到一个开箱即用的excel导入导出插件，js里比较知名的xlsx插件免费版没办法修改样式，而xlsx-style插件需要修改源码，都比较麻烦，所以对其做了简单的封装，做到开箱即用。
+这个项目是在工作中并没有找到一个开箱即用的excel导入导出插件，js里比较知名的[xlsx](https://github.com/SheetJS/sheetjs.git)插件免费版没办法修改样式，而[xlsx-style](https://github.com/protobi/js-xlsx.git)插件需要修改源码，都比较麻烦，所以对其做了简单的封装，做到开箱即用。
 
 ## Features
 
@@ -259,3 +259,8 @@ on-progress|文件导入时的钩子|function(event,file)|--|--
 on-change|文件状态改变时的钩子，导入文件、导入成功和导入失败时都会被调用|function(file)|--|--
 on-success|文件导入成功的钩子，参数response为生成的json数据|function(response, file)|--|--
 on-error|文件导入失败的钩子，参数error为错误信息|function(error, file)|--|--
+
+## Reference
+[https://www.jianshu.com/p/31534691ed53](https://www.jianshu.com/p/31534691ed53)
+
+[https://www.cnblogs.com/yinxingen/p/11052184.html](https://www.cnblogs.com/yinxingen/p/11052184.html)
