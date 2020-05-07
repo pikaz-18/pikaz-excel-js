@@ -2,7 +2,7 @@
  * @Author: zouzheng
  * @Date: 2020-04-30 15:05:31
  * @LastEditors: zouzheng
- * @LastEditTime: 2020-05-07 13:47:40
+ * @LastEditTime: 2020-05-07 17:03:01
  * @Description: 这是excel导入组件（页面）
  -->
 <template>
@@ -20,25 +20,28 @@ export default {
     //  导入前
     beforeImport: {
       type: Function,
-      default: () => { }
+      // file为导入文件
+      default: (file) => { }
     },
     // 导入时
     onProgress: {
       type: Function,
-      default: () => { }
+      default: (event, file) => { }
     },
     // 状态改变
     onChange: {
       type: Function,
-      default: () => { }
+      default: (file) => { }
     },
     onSuccess: {
       type: Function,
-      default: () => { }
+      // response为生成的json数据
+      default: (response, file) => { }
     },
     onError: {
       type: Function,
-      default: () => { }
+      // err为错误信息
+      default: (err, file) => { }
     }
   },
   components: {},

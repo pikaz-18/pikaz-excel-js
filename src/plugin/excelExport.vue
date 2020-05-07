@@ -2,7 +2,7 @@
  * @Author: zouzheng
  * @Date: 2020-04-30 11:42:13
  * @LastEditors: zouzheng
- * @LastEditTime: 2020-05-07 14:08:21
+ * @LastEditTime: 2020-05-07 16:55:33
  * @Description: 这是excel导出组件（页面）
  -->
 <template>
@@ -66,16 +66,20 @@ export default {
         globalStyle: {
           border: {
             top: {
-              style: 'thin'
+              style: 'thin',
+              color: { rgb: "000000" }
             },
             bottom: {
-              style: 'thin'
+              style: 'thin',
+              color: { rgb: "000000" }
             },
             left: {
-              style: 'thin'
+              style: 'thin',
+              color: { rgb: "000000" }
             },
             right: {
-              style: 'thin'
+              style: 'thin',
+              color: { rgb: "000000" }
             }
           },
           font: {
@@ -84,14 +88,16 @@ export default {
             color: { rgb: "000000" },
             bold: false,
             italic: false,
-            underline: false
+            underline: false,
+            shadow: false
           },
           alignment: {
             horizontal: "center",
-            vertical: "center"
+            vertical: "center",
+            wrapText: false
           },
           fill: {
-            fgColor: { rgb: "ffffff" },
+            bgColor: { rgb: "ffffff" },
           }
         },
       },

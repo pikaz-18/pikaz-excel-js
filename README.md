@@ -2,12 +2,12 @@
  * @Author: zouzheng
  * @Date: 2020-04-30 11:23:12
  * @LastEditors: zouzheng
- * @LastEditTime: 2020-05-07 13:46:29
+ * @LastEditTime: 2020-05-07 17:03:53
  * @Description: 这是XXX组件（页面）
  -->
 ## Introduction
 
-这个项目是在工作中并没有找到一个能够快速开箱即用的excel导入导出插件，js里比较知名的xlsx插件没办法修改样式，而xlsx-style插件需要修改源码，都比较麻烦，所以对其做了简单的封装，做到开箱即用。
+这个项目是在工作中并没有找到一个开箱即用的excel导入导出插件，js里比较知名的xlsx插件免费版没办法修改样式，而xlsx-style插件需要修改源码，都比较麻烦，所以对其做了简单的封装，做到开箱即用。
 
 ## Features
 
@@ -76,8 +76,8 @@ on-error|导出失败的钩子，参数为错误信息|function(err)|--|--
 title|表格标题|string|--|--
 tHeader|表头|array|--|--
 multiHeader|多级表头,即一个数组中有多个表头数组|array|--|--
-table|表格数据array|--|--
-merges|合并单元格|array|--|--
+table|表格数据|array|--|--
+merges|合并单元格，合并的表头和表格数据项以空字符串填充|array|--|--
 keys|数据键名，需与表头内容顺序对应|array|--|--
 colWidth|列宽，若不传，则列宽自适应|array|--|--
 sheetName|表格名称|string|--|sheet
@@ -86,15 +86,146 @@ cellStyle|单元格样式，具体参数查看下方[单元格样式](#cell-styl
 
 <h5 id="global-style">表格全局样式</h5>
 
-参数|说明|格式|类型|可选值|默认值
----|--|-|--|--
-border|单元格边框,格式如:{top:{style: 'thin'},bottom: {
-style: 'thin'},left: {style: 'thin'},right:{style:'thin'}}，可更改style值改变外边框，传{}则取消边框|object|style:thin/dotted|style:'thin'
-font|合并单元格|array|--|--
-
-
+<table>
+    <tr>
+        <td>参数</td>
+        <td>属性名</td>
+        <td>说明</td>
+        <td>类型</td>
+        <td>可选值</td>
+        <td>默认值</td>
+    </tr>
+    <tr>
+        <td rowspan="4">border</td>
+        <td>top</td>
+        <td>格式如：{style:'thin',color:{ rgb: "000000" }}</td>
+        <td>object</td>
+        <td>style:thin/medium/dotted/dashed</td>
+        <td>{style:'thin',color:{ rgb: "000000" }}</td>
+    </tr>
+    <tr>
+        <td>right</td>
+        <td>格式如：{style:'thin',color:{ rgb: "000000" }}</td>
+        <td>object</td>
+        <td>style:thin/medium/dotted/dashed</td>
+        <td>{style:'thin',color:{ rgb: "000000" }}</td>
+    </tr>
+    <tr>
+        <td>bottom</td>
+        <td>格式如：{style:'thin',color:{ rgb: "000000" }}</td>
+        <td>object</td>
+        <td>style:thin/medium/dotted/dashed</td>
+        <td>{style:'thin',color:{ rgb: "000000" }}</td>
+    </tr>
+    <tr>
+        <td>left</td>
+        <td>格式如：{style:'thin',color:{ rgb: "000000" }}</td>
+        <td>object</td>
+        <td>style:thin/medium/dotted/dashed</td>
+        <td>{style:'thin',color:{ rgb: "000000" }}</td>
+    </tr>
+    <tr>
+        <td rowspan="7">font</td>
+        <td>name</td>
+        <td>字体</td>
+        <td>string</td>
+        <td>宋体/黑体/Tahoma等</td>
+        <td>宋体</td>
+    </tr>
+    <tr>
+        <td>sz</td>
+        <td>字号</td>
+        <td>number</td>
+        <td>--</td>
+        <td>12</td>
+    </tr>
+    <tr>
+        <td>color</td>
+        <td>字体颜色,格式如：{ rgb: "000000" }</td>
+        <td>object</td>
+        <td>--</td>
+        <td>{ rgb: "000000" }</td>
+    </tr>
+    <tr>
+        <td>bold</td>
+        <td>是否为粗体</td>
+        <td>boolean</td>
+        <td>true/false</td>
+        <td>false</td>
+    </tr>
+    <tr>
+        <td>italic</td>
+        <td>是否为斜体</td>
+        <td>boolean</td>
+        <td>true/false</td>
+        <td>false</td>
+    </tr>
+    <tr>
+        <td>underline</td>
+        <td>是否有下划线</td>
+        <td>boolean</td>
+        <td>true/false</td>
+        <td>false</td>
+    </tr>
+    <tr>
+        <td>shadow</td>
+        <td>是否有阴影</td>
+        <td>boolean</td>
+        <td>true/false</td>
+        <td>false</td>
+    </tr>
+    <tr>
+        <td>fill</td>
+        <td>bgColor</td>
+        <td>背景色</td>
+        <td>{ rgb: "ffffff" }</td>
+        <td>--</td>
+        <td>{ rgb: "ffffff" }</td>
+    </tr>
+    <tr>
+        <td rowspan="3">alignment</td>
+        <td>horizontal</td>
+        <td>水平对齐方式</td>
+        <td>string</td>
+        <td>bottom/center/top</td>
+        <td>center</td>
+    </tr>
+    <tr>
+        <td>vertical</td>
+        <td>垂直对齐方式</td>
+        <td>string</td>
+        <td>bottom/center/top</td>
+        <td>center</td>
+    </tr>
+    <tr>
+        <td>wrapText</td>
+        <td>文字是否换行</td>
+        <td>boolean</td>
+        <td>true/false</td>
+        <td>false</td>
+    </tr>
+</table>
 
 <h5 id="cell-style">单元格样式</h5>
+
+<table>
+    <tr>
+        <td>参数</td>
+        <td>说明</td>
+        <td>类型</td>
+        <td>可选值</td>
+        <td>默认值</td>
+    </tr>
+    <tr>
+        <td>cell</td>
+        <td>单元格名称，如A1</td>
+        <td>string</td>
+        <td>--</td>
+        <td>--</td>
+    </tr>
+</table>
+
+其他属性与[表格全局样式](#global-style)设置方式一致
 
 ### Import:
 
@@ -121,3 +252,10 @@ font|合并单元格|array|--|--
 ```
 
 #### Attributes:
+参数|说明|类型|可选值|默认值
+-|-|-|-|-
+before-import|文件导入前的钩子，参数file为导入文件|function(file)|--|--
+on-progress|文件导入时的钩子|function(event,file)|--|--
+on-change|文件状态改变时的钩子，导入文件、导入成功和导入失败时都会被调用|function(file)|--|--
+on-success|文件导入成功的钩子，参数response为生成的json数据|function(response, file)|--|--
+on-error|文件导入失败的钩子，参数error为错误信息|function(error, file)|--|--
