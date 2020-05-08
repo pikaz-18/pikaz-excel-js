@@ -2,7 +2,7 @@
  * @Author: zouzheng
  * @Date: 2020-04-30 11:23:07
  * @LastEditors: zouzheng
- * @LastEditTime: 2020-05-07 14:59:24
+ * @LastEditTime: 2020-05-08 11:40:48
  * @Description: 这是XXX组件（页面）
  -->
 <template>
@@ -10,21 +10,31 @@
     <div class="header">
       <img class="logo" src="./assets/img/logo.png" />
     </div>
-    <h2>导出demo</h2>
-    <div></div>
+    <div class="demo">
+      <h3>导出demo</h3>
+      <export-demo></export-demo>
+    </div>
+    <div class="demo">
+      <h3>导入demo</h3>
+      <import-demo></import-demo>
+    </div>
   </div>
 </template>
 
 <script>
 import ExportDemo from './components/exportDemo'
+import ImportDemo from './components/importDemo'
 export default {
   name: 'App',
-  components: { ExportDemo }
+  components: { ExportDemo, ImportDemo }
 }
 </script>
 
 <style>
 #app {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
   width: 100vw;
 }
 .header {
@@ -38,6 +48,13 @@ export default {
 .logo {
   width: 600px;
   object-fit: contain;
+}
+.demo {
+  margin: 20px 0;
+  width: 1200px;
+}
+.demo > h3 {
+  margin-bottom: 20px;
 }
 </style>
 

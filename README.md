@@ -2,12 +2,12 @@
  * @Author: zouzheng
  * @Date: 2020-04-30 11:23:12
  * @LastEditors: zouzheng
- * @LastEditTime: 2020-05-07 17:17:15
+ * @LastEditTime: 2020-05-08 12:31:26
  * @Description: 这是XXX组件（页面）
  -->
 ## Introduction
 
-这个项目是在工作中并没有找到一个开箱即用的excel导入导出插件，js里比较知名的[xlsx](https://github.com/SheetJS/sheetjs.git)插件免费版没办法修改样式，而[xlsx-style](https://github.com/protobi/js-xlsx.git)插件需要修改源码，都比较麻烦，所以对其做了简单的封装，做到开箱即用。
+这个项目是在工作中并没有找到一个开箱即用的excel导入导出插件，js里比较知名的[xlsx](https://github.com/SheetJS/sheetjs.git)插件免费版没办法修改样式，而[xlsx-style](https://github.com/protobi/js-xlsx.git)插件需要修改源码，都比较麻烦，所以对其做了简单的封装，做到开箱即用，降低使用成本，考虑到客户端机器性能，导出大量数据时，推荐拆分数据分成多个文件导出。
 
 ## Features
 
@@ -64,7 +64,7 @@ npm i -S pikaz-excel-js
 -|-|-|-|-
 bookType|文件格式|string|xlsx/xls|xlsx
 filename|文件名称|string|--|excel
-sheet|表格数据，具体看下方[表格配置](#table-setting)|array|--|--
+sheet|表格数据，每个表格数据对象配置具体看下方[表格配置](#table-setting)|array|--|--
 before-start|处理数据之前的钩子，参数为导出的文件格式，文件名，表格数据，若返回 false则停止导出|function(bookType, filename, sheet)|--|--
 before-export|导出文件之前的钩子，参数为导出的文件格式，文件名，blob文件流，若返回 false则停止导出|function(bookType, filename, sheet)|--|--
 on-error|导出失败的钩子，参数为错误信息|function(err)|--|--
@@ -73,16 +73,16 @@ on-error|导出失败的钩子，参数为错误信息|function(err)|--|--
 
 参数|说明|类型|可选值|默认值
 -|-|-|-|-
-title|表格标题|string|--|--
-tHeader|表头|array|--|--
-multiHeader|多级表头,即一个数组中有多个表头数组|array|--|--
+title|表格标题，必须搭配表头或多级表头使用，非必须项|string|--|--
+tHeader|表头，非必须项|array|--|--
+multiHeader|多级表头,即一个数组中包含多个表头数组，非必须项|array|--|--
 table|表格数据|array|--|--
-merges|合并单元格，合并的表头和表格数据项以空字符串填充|array|--|--
+merges|合并单元格，合并的表头和表格多余数据项以空字符串填充，非必须项|array|--|--
 keys|数据键名，需与表头内容顺序对应|array|--|--
-colWidth|列宽，若不传，则列宽自适应|array|--|--
+colWidth|列宽，若不传，则列宽自适应，数据量多时推荐设置列宽|array|--|--
 sheetName|表格名称|string|--|sheet
 globalStyle|表格全局样式，具体参数查看下方[表格全局样式](#global-style)|object|--|[表格全局样式](#global-style)
-cellStyle|单元格样式，具体参数查看下方[单元格样式](#cell-style)|array|--|--
+cellStyle|单元格样式，每个单元格对象配置具体参数查看下方[单元格样式](#cell-style)|array|--|--
 
 <h5 id="global-style">表格全局样式</h5>
 
@@ -176,7 +176,7 @@ cellStyle|单元格样式，具体参数查看下方[单元格样式](#cell-styl
     </tr>
     <tr>
         <td>fill</td>
-        <td>bgColor</td>
+        <td>fgColor</td>
         <td>背景色</td>
         <td>{ rgb: "ffffff" }</td>
         <td>--</td>
@@ -254,6 +254,7 @@ cellStyle|单元格样式，具体参数查看下方[单元格样式](#cell-styl
 #### Attributes:
 参数|说明|类型|可选值|默认值
 -|-|-|-|-
+sheetNames|需要查询的表名，如['插件信息']|Array|--|--
 before-import|文件导入前的钩子，参数file为导入文件|function(file)|--|--
 on-progress|文件导入时的钩子|function(event,file)|--|--
 on-change|文件状态改变时的钩子，导入文件、导入成功和导入失败时都会被调用|function(file)|--|--

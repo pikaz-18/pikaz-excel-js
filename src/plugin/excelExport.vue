@@ -2,7 +2,7 @@
  * @Author: zouzheng
  * @Date: 2020-04-30 11:42:13
  * @LastEditors: zouzheng
- * @LastEditTime: 2020-05-07 16:55:33
+ * @LastEditTime: 2020-05-08 11:29:38
  * @Description: 这是excel导出组件（页面）
  -->
 <template>
@@ -51,6 +51,7 @@ export default {
       // filename:文件名,sheet:表格数据,blob:文件流
       default: (bookType, filename, blob) => { }
     },
+    // 导出错误
     onError: {
       type: Function,
       // err:错误信息
@@ -62,7 +63,7 @@ export default {
     return {
       // 默认配置
       default: {
-        sheetName: 'sheet' + new Date().getTime(),
+        sheetName: 'sheet',
         globalStyle: {
           border: {
             top: {
@@ -97,7 +98,7 @@ export default {
             wrapText: false
           },
           fill: {
-            bgColor: { rgb: "ffffff" },
+            fgColor: { rgb: "ffffff" },
           }
         },
       },
@@ -211,7 +212,15 @@ export default {
           cellStyle
         } = item
         sheetName = sheetName || this.default.sheetName
-        globalStyle = globalStyle || this.default.globalStyle
+        // 默认全局样式覆盖
+        const dgStyle = this.default.globalStyle
+        if (globalStyle) {
+          Object.keys(dgStyle).forEach(key => {
+            globalStyle[key] = { ...dgStyle[key], ...globalStyle[key] }
+          })
+        } else {
+          globalStyle = dgStyle
+        }
         // 处理标题格式
         if (title || title === 0 || title === '') {
           // 取表头、多级表头中的最大值
@@ -220,43 +229,67 @@ export default {
           const titleLength = Math.max(tHeaderLength, multiHeaderLength)
           // 第一个元素为title，剩余以空字符串填充
           title = [title].concat(Array(titleLength - 1).fill(''))
-          // 若没有合并，则默认处理标题的合并
+          // 处理标题的合并
+          const mergeSecond = String.fromCharCode(64 + titleLength) + '1'
+          const titleMerge = `A1:${mergeSecond}`
           if (!merges) {
-            const mergeSecond = String.fromCharCode(64 + titleLength) + '1'
-            merges = [`A1:${mergeSecond}`]
+            merges = [titleMerge]
+          } else {
+            if (merges.indexOf(titleMerge) === -1) {
+              merges.push(titleMerge)
+            }
           }
         }
         //表头对应字段
         let data = table.map(v => keys.map(j => v[j]))
+        // 多级表头
+        if (multiHeader) {
+          // 倒序循环
+          for (let i = multiHeader.length - 1; i >= 0; i--) {
+            data.unshift(multiHeader[i]);
+          }
+        }
         tHeader && data.unshift(tHeader);
         title && data.unshift(title);
         const ws = this.sheet_from_array_of_arrays(data);
         if (merges && merges.length > 0) {
           if (!ws['!merges']) ws['!merges'] = [];
-          merges.forEach(item => {
-            ws['!merges'].push(XLSX.utils.decode_range(item))
+          merges.forEach(merge => {
+            ws['!merges'].push(XLSX.utils.decode_range(merge))
           })
         }
         // 如果没有列宽则自适应
         if (!colWidth) {
           // 基准比例，以12为标准
-          const benchmarkRate = globalStyle.font.sz / 12
+          const benchmarkRate = globalStyle.font.sz && globalStyle.font.sz / 12 || 1
+          // 空字符长度
+          const nullstr = 10 * benchmarkRate + 2
+          // 单个中文字符长度
+          const chinese = 2 * benchmarkRate + 2
+          // 单个非中文字符长度
+          const nChinese = benchmarkRate + 2
           //设置worksheet每列的最大宽度,并+2调整一点列宽
           const sheetColWidth = data.map(row => row.map(val => {
             /*先判断是否为null/undefined*/
-            if (val == null) {
+            if (!val) {
               return {
-                'wch': 10 * benchmarkRate + 2
-              };
-            }
-            /*再判断是否为中文*/
-            else if (val.toString().charCodeAt(0) > 255) {
-              return {
-                'wch': val.toString().length * 2 * benchmarkRate + 2
+                'wch': nullstr
               };
             } else {
+              // 判断字符是否是中文
+              const strArr = val.split('')
+              const pattern = new RegExp("[\u4E00-\u9FA5]+")
+              let re = strArr.map(str => {
+                // 是否为中文
+                if (pattern.test(str)) {
+                  return chinese
+                } else {
+                  nChinese
+                }
+              })
+              re = re.reduce((total, r) => total + r, 0)
               return {
-                'wch': val.toString().length * benchmarkRate + 2
+                'wch': re
               };
             }
           }))
@@ -283,16 +316,10 @@ export default {
 
         //全局样式
         (function () {
-          const { border, font, alignment, fill } = globalStyle;
           Object.keys(dataInfo).forEach(i => {
             if (i == '!ref' || i == '!merges' || i == '!cols') {
             } else {
-              dataInfo[i.toString()].s = {
-                border,
-                font,
-                alignment,
-                fill
-              }
+              dataInfo[i.toString()].s = globalStyle;
             }
           });
         })();
@@ -302,13 +329,13 @@ export default {
           if (!cellStyle || cellStyle.length <= 0) {
             return
           }
-          const { border, font, alignment, fill } = cellStyle;
           cellStyle.forEach(s => {
+            const { border, font, alignment, fill } = s;
             dataInfo[s.cell].s = {
-              border,
-              font,
-              alignment,
-              fill
+              border: border || globalStyle.border,
+              font: font || globalStyle.font,
+              alignment: alignment || globalStyle.alignment,
+              fill: fill || globalStyle.fill
             }
           });
         })();

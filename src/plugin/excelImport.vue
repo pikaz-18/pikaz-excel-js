@@ -2,14 +2,13 @@
  * @Author: zouzheng
  * @Date: 2020-04-30 15:05:31
  * @LastEditors: zouzheng
- * @LastEditTime: 2020-05-07 17:03:01
+ * @LastEditTime: 2020-05-08 12:30:32
  * @Description: 这是excel导入组件（页面）
  -->
 <template>
   <div class="excel-import" @click="importFileClick">
     <input type="file" @change="importFile(this)" id="importFile" style="display: none" accept=".xls,.xlsx" />
     <slot></slot>
-    <button>导入</button>
   </div>
 </template>
 
@@ -17,6 +16,7 @@
 import XLSX from 'xlsx'
 export default {
   props: {
+    sheetNames: Array,
     //  导入前
     beforeImport: {
       type: Function,
@@ -91,8 +91,8 @@ export default {
       }
       // 文件类型必须为xlsx或者xls
       const bookType = file.name.substr(file.name.length - 4, file.name.length - 1)
-      const type = this.emum.bookType.some(e => {
-        if (bookType.indexOf(e)) {
+      const type = this.enum.bookType.some(e => {
+        if (bookType.indexOf(e) !== -1) {
           return true
         }
         return false
@@ -120,7 +120,23 @@ export default {
             type: "binary"
           });
         }
-        let json = XLSX.utils.sheet_to_json($t.wb.Sheets[$t.wb.SheetNames[0]]);
+        let json = []
+        // 查询对应表名数据
+        if ($t.sheetNames) {
+          $t.sheetNames.forEach(name => {
+            const sheetIndex = $t.wb.SheetNames.findIndex(s => s === name)
+            if (sheetIndex !== -1) {
+              const data = XLSX.utils.sheet_to_json($t.wb.Sheets[$t.wb.SheetNames[sheetIndex]])
+              json.push({ sheetName: name, data })
+            }
+          })
+        } else {
+          // 查询全部数据
+          for (let i = 0; i < $t.wb.SheetNames.length; i++) {
+            const data = XLSX.utils.sheet_to_json($t.wb.Sheets[$t.wb.SheetNames[i]])
+            json.push({ sheetName: $t.wb.SheetNames[i], data })
+          }
+        }
         $t.dealFile(json, file); // 解析导入数据
       };
       if (this.rABS) {
