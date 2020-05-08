@@ -2,17 +2,19 @@
  * @Author: zouzheng
  * @Date: 2020-04-30 11:23:12
  * @LastEditors: zouzheng
- * @LastEditTime: 2020-05-08 12:31:26
+ * @LastEditTime: 2020-05-08 14:18:34
  * @Description: 这是XXX组件（页面）
  -->
 ## Introduction
 
-这个项目是在工作中并没有找到一个开箱即用的excel导入导出插件，js里比较知名的[xlsx](https://github.com/SheetJS/sheetjs.git)插件免费版没办法修改样式，而[xlsx-style](https://github.com/protobi/js-xlsx.git)插件需要修改源码，都比较麻烦，所以对其做了简单的封装，做到开箱即用，降低使用成本，考虑到客户端机器性能，导出大量数据时，推荐拆分数据分成多个文件导出。
+这个项目是在工作中并没有找到一个开箱即用的excel导入导出插件，js里比较知名的[xlsx](https://github.com/SheetJS/sheetjs.git)插件免费版没办法修改样式，而[xlsx-style](https://github.com/protobi/js-xlsx.git)插件需要修改源码，都比较麻烦，所以对其做了简单的封装，做到开箱即用，降低使用成本。
 
 ## Features
 
 * 支持导出excel文件，并可设置列宽，边框，字体，字体颜色，字号，对齐方式，背景色等样式。
-* 支持excel文件导入，生成json数据。
+* 支持excel文件导入，生成json数据，考虑到客户端机器性能，导出大量数据时，推荐拆分数据分成多个文件导出。
+
+## [demo](https://pikaz-18.github.io/pikaz-excel-js/example/index.html)
 
 ## Installation
 

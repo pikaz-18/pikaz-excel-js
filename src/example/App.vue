@@ -2,7 +2,7 @@
  * @Author: zouzheng
  * @Date: 2020-04-30 11:23:07
  * @LastEditors: zouzheng
- * @LastEditTime: 2020-05-08 11:40:48
+ * @LastEditTime: 2020-05-08 14:23:30
  * @Description: 这是XXX组件（页面）
  -->
 <template>
@@ -17,6 +17,9 @@
     <div class="demo">
       <h3>导入demo</h3>
       <import-demo></import-demo>
+    </div>
+    <div class="address">
+      <a href="https://github.com/pikaz-18/pikaz-excel-js/tree/master/src/example/components">demo代码地址</a>
     </div>
   </div>
 </template>
@@ -55,6 +58,15 @@ export default {
 }
 .demo > h3 {
   margin-bottom: 20px;
+}
+.address {
+  display: flex;
+  margin: 20px 0;
+  width: 1200px;
+  font-weight: bold;
+}
+.address > a {
+  color: #ff7e00;
 }
 </style>
 
