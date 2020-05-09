@@ -2,12 +2,12 @@
  * @Author: zouzheng
  * @Date: 2020-04-30 11:23:12
  * @LastEditors: zouzheng
- * @LastEditTime: 2020-05-08 14:18:34
+ * @LastEditTime: 2020-05-09 09:14:59
  * @Description: 这是XXX组件（页面）
  -->
 ## Introduction
 
-这个项目是在工作中并没有找到一个开箱即用的excel导入导出插件，js里比较知名的[xlsx](https://github.com/SheetJS/sheetjs.git)插件免费版没办法修改样式，而[xlsx-style](https://github.com/protobi/js-xlsx.git)插件需要修改源码，都比较麻烦，所以对其做了简单的封装，做到开箱即用，降低使用成本。
+这个项目是在工作中并没有找到一个开箱即用的excel导入导出插件，js里比较知名的[xlsx](https://github.com/SheetJS/sheetjs.git)插件免费版没办法修改样式，而[xlsx-style](https://github.com/protobi/js-xlsx.git)插件需要修改源码，都比较麻烦，所以在xlsx和xlsx-style的基础上做了简单的封装，做到开箱即用，降低使用成本。
 
 ## Features
 
@@ -75,7 +75,7 @@ on-error|导出失败的钩子，参数为错误信息|function(err)|--|--
 
 参数|说明|类型|可选值|默认值
 -|-|-|-|-
-title|表格标题，必须搭配表头或多级表头使用，非必须项|string|--|--
+title|表格标题，自动设置合并，非必须项|string|--|--
 tHeader|表头，非必须项|array|--|--
 multiHeader|多级表头,即一个数组中包含多个表头数组，非必须项|array|--|--
 table|表格数据|array|--|--

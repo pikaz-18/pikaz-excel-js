@@ -226,7 +226,7 @@ export default {
           // 取表头、多级表头中的最大值
           const tHeaderLength = tHeader && tHeader.length || 0
           const multiHeaderLength = multiHeader && Math.max(...multiHeader.map(m => m.length)) || 0
-          const titleLength = Math.max(tHeaderLength, multiHeaderLength)
+          const titleLength = Math.max(tHeaderLength, multiHeaderLength,keys.length)
           // 第一个元素为title，剩余以空字符串填充
           title = [title].concat(Array(titleLength - 1).fill(''))
           // 处理标题的合并
