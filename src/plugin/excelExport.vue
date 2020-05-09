@@ -2,7 +2,7 @@
  * @Author: zouzheng
  * @Date: 2020-04-30 11:42:13
  * @LastEditors: zouzheng
- * @LastEditTime: 2020-05-09 15:49:31
+ * @LastEditTime: 2020-05-09 16:26:57
  * @Description: 这是excel导出组件（页面）
  -->
 <template>
@@ -269,9 +269,9 @@ export default {
           // 空字符长度
           const nullstr = 10 * benchmarkRate + 2
           // 单个中文字符长度
-          const chinese = 2 * benchmarkRate + 2
+          const chinese = 2 * benchmarkRate
           // 单个非中文字符长度
-          const nChinese = benchmarkRate + 2
+          const nChinese = benchmarkRate
           //设置worksheet每列的最大宽度,并+2调整一点列宽
           const sheetColWidth = data.map(row => row.map(val => {
             /*先判断是否为null/undefined*/
@@ -288,12 +288,12 @@ export default {
                 if (pattern.test(str)) {
                   return chinese
                 } else {
-                  nChinese
+                  return nChinese
                 }
               })
               re = re.reduce((total, r) => total + r, 0)
               return {
-                'wch': re
+                'wch': re + 2
               };
             }
           }))
