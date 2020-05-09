@@ -2,7 +2,7 @@
  * @Author: zouzheng
  * @Date: 2020-04-30 11:42:13
  * @LastEditors: zouzheng
- * @LastEditTime: 2020-05-09 16:26:57
+ * @LastEditTime: 2020-05-09 18:16:41
  * @Description: 这是excel导出组件（页面）
  -->
 <template>
@@ -32,6 +32,7 @@ export default {
       type: String,
       default: 'excel'
     },
+    // 是否手动导出
     manual: {
       type: Boolean,
       default: false
@@ -204,15 +205,25 @@ export default {
       const wb = new Workbook()
       this.sheet.forEach((item, index) => {
         let {
+          // 标题
           title,
+          // 表头
           tHeader,
+          // 多级表头
           multiHeader,
+          // 表格数据
           table,
+          // 合并项
           merges,
+          // 数据键值
           keys,
+          // 列宽
           colWidth,
+          // 表名
           sheetName,
+          // 全局样式
           globalStyle,
+          // 单元格样式
           cellStyle
         } = item
         sheetName = sheetName || this.default.sheetName
@@ -274,7 +285,7 @@ export default {
           const nChinese = benchmarkRate
           //设置worksheet每列的最大宽度,并+2调整一点列宽
           const sheetColWidth = data.map(row => row.map(val => {
-            /*先判断是否为null/undefined*/
+            //先判断是否为null/undefined
             if (!val) {
               return {
                 'wch': nullstr
