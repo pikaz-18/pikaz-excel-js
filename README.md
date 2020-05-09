@@ -2,7 +2,7 @@
  * @Author: zouzheng
  * @Date: 2020-04-30 11:23:12
  * @LastEditors: zouzheng
- * @LastEditTime: 2020-05-09 09:14:59
+ * @LastEditTime: 2020-05-09 15:51:55
  * @Description: 这是XXX组件（页面）
  -->
 ## Introduction
@@ -66,6 +66,7 @@ npm i -S pikaz-excel-js
 -|-|-|-|-
 bookType|文件格式|string|xlsx/xls|xlsx
 filename|文件名称|string|--|excel
+manual|手动导出模式，设置为true时，取消点击导出，并可调用[exportExcel](#export-method)方法完成导出|boolean|true/false|false
 sheet|表格数据，每个表格数据对象配置具体看下方[表格配置](#table-setting)|array|--|--
 before-start|处理数据之前的钩子，参数为导出的文件格式，文件名，表格数据，若返回 false则停止导出|function(bookType, filename, sheet)|--|--
 before-export|导出文件之前的钩子，参数为导出的文件格式，文件名，blob文件流，若返回 false则停止导出|function(bookType, filename, sheet)|--|--
@@ -228,6 +229,14 @@ cellStyle|单元格样式，每个单元格对象配置具体参数查看下方[
 </table>
 
 其他属性与[表格全局样式](#global-style)设置方式一致
+
+<div id="export-method"></div>
+
+#### Methods:
+
+方法名|说明|参数
+-|-|-
+pikaExportExcel|导出函数|--
 
 ### Import:
 

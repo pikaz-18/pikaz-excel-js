@@ -2,14 +2,20 @@
  * @Author: zouzheng
  * @Date: 2020-05-07 14:57:19
  * @LastEditors: zouzheng
- * @LastEditTime: 2020-05-08 14:23:19
+ * @LastEditTime: 2020-05-09 15:51:04
  * @Description: 这是exportDemo组件（页面）
  -->
 <template>
   <div class="export-demo">
+    <!-- 点击导出 -->
     <excel-export :bookType="bookType" :filename="filename" :sheet="sheet" :on-error="onError">
       <div class="export-btn">点击导出</div>
     </excel-export>
+    <!-- 手动导出 -->
+    <!-- <excel-export :bookType="bookType" :filename="filename" :sheet="sheet" :on-error="onError" :manual="true"
+      ref="excelExport">
+    </excel-export>
+    <div @click="exportTable">点击导出</div> -->
   </div>
 </template>
 
@@ -86,6 +92,14 @@ export default {
      */
     onError (err) {
       console.log(err)
+    },
+    /**
+     * @name: 手动导出
+     * @param {type} 
+     * @return: 
+     */
+    exportTable () {
+      this.$refs.excelExport.pikaExportExcel()
     }
   },
   computed: {},

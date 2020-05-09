@@ -2,11 +2,11 @@
  * @Author: zouzheng
  * @Date: 2020-04-30 11:42:13
  * @LastEditors: zouzheng
- * @LastEditTime: 2020-05-08 11:29:38
+ * @LastEditTime: 2020-05-09 15:49:31
  * @Description: 这是excel导出组件（页面）
  -->
 <template>
-  <div class="excel-export" @click="exportExcel">
+  <div class="excel-export" @click="!manual&&pikaExportExcel()">
     <slot></slot>
   </div>
 </template>
@@ -31,6 +31,10 @@ export default {
     filename: {
       type: String,
       default: 'excel'
+    },
+    manual: {
+      type: Boolean,
+      default: false
     },
     // 表格配置
     sheet: {
@@ -188,7 +192,7 @@ export default {
      * @param {type} 
      * @return: 
      */
-    exportExcel () {
+    pikaExportExcel () {
       const beforeStart = this.beforeStart(this.bookType, this.filename, this.sheet)
       if (beforeStart === false) {
         return
@@ -226,7 +230,7 @@ export default {
           // 取表头、多级表头中的最大值
           const tHeaderLength = tHeader && tHeader.length || 0
           const multiHeaderLength = multiHeader && Math.max(...multiHeader.map(m => m.length)) || 0
-          const titleLength = Math.max(tHeaderLength, multiHeaderLength,keys.length)
+          const titleLength = Math.max(tHeaderLength, multiHeaderLength, keys.length)
           // 第一个元素为title，剩余以空字符串填充
           title = [title].concat(Array(titleLength - 1).fill(''))
           // 处理标题的合并
