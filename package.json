@@ -1,6 +1,6 @@
 {
   "name": "pikaz-excel-js",
-  "version": "0.2.6",
+  "version": "0.2.7",
   "description": "A Excel Component for Vue.js",
   "private": false,
   "main": "lib/PikazJsExcel.umd.min.js",
