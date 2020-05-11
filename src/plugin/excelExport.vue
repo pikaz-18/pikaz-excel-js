@@ -291,7 +291,6 @@ export default {
                 'wch': nullstr
               };
             } else {
-              // 判断字符是否是中文
               const strArr = val.split('')
               const pattern = new RegExp("[\u4E00-\u9FA5]+")
               let re = strArr.map(str => {
