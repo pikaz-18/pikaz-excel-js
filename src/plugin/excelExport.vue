@@ -2,7 +2,7 @@
  * @Author: zouzheng
  * @Date: 2020-04-30 11:42:13
  * @LastEditors: zouzheng
- * @LastEditTime: 2020-05-09 18:16:41
+ * @LastEditTime: 2020-05-11 18:03:02
  * @Description: 这是excel导出组件（页面）
  -->
 <template>
@@ -346,7 +346,7 @@ export default {
           cellStyle.forEach(s => {
             const { border, font, alignment, fill } = s;
             dataInfo[s.cell].s = {
-              border: border || globalStyle.border,
+              border: border === {} ? border : border || globalStyle.border,
               font: font || globalStyle.font,
               alignment: alignment || globalStyle.alignment,
               fill: fill || globalStyle.fill
