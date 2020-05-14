@@ -2,7 +2,7 @@
  * @Author: zouzheng
  * @Date: 2020-04-30 11:42:13
  * @LastEditors: zouzheng
- * @LastEditTime: 2020-05-14 16:56:55
+ * @LastEditTime: 2020-05-14 17:04:58
  * @Description: 这是excel导出组件（页面）
  -->
 <template>
@@ -193,9 +193,9 @@ export default {
      * @return: 
      */
     pikaExportExcel () {
-      setTimeout(() => {
+      this.$nextTick(() => {
         this.exportExcel()
-      }, 0)
+      })
     },
     /**
      * @name:导出excel 
