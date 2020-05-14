@@ -2,11 +2,11 @@
  * @Author: zouzheng
  * @Date: 2020-04-30 11:42:13
  * @LastEditors: zouzheng
- * @LastEditTime: 2020-05-11 18:03:02
+ * @LastEditTime: 2020-05-14 16:56:55
  * @Description: 这是excel导出组件（页面）
  -->
 <template>
-  <div class="excel-export" @click="!manual&&pikaExportExcel()">
+  <div class="excel-export" @click="!manual&&exportExcel()">
     <slot></slot>
   </div>
 </template>
@@ -187,13 +187,22 @@ export default {
       for (let i = 0; i != s.length; ++i) view[i] = s.charCodeAt(i) & 0xFF;
       return buf;
     },
-
+    /**
+     * @name: 导出excel函数
+     * @param {type} 
+     * @return: 
+     */
+    pikaExportExcel () {
+      setTimeout(() => {
+        this.exportExcel()
+      }, 0)
+    },
     /**
      * @name:导出excel 
      * @param {type} 
      * @return: 
      */
-    pikaExportExcel () {
+    exportExcel () {
       const beforeStart = this.beforeStart(this.bookType, this.filename, this.sheet)
       if (beforeStart === false) {
         return
