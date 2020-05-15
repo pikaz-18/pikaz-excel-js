@@ -2,7 +2,7 @@
  * @Author: zouzheng
  * @Date: 2020-04-30 11:23:12
  * @LastEditors: zouzheng
- * @LastEditTime: 2020-05-15 16:00:10
+ * @LastEditTime: 2020-05-15 16:01:49
  * @Description: 这是XXX组件（页面）
  -->
 ## Introduction
@@ -49,13 +49,13 @@ npm i -S pikaz-excel-js
         data () {
           return {
             sheet:[
-              [
+              {
                 title:"水果的味道",
                 tHeader:["荔枝","柠檬"],
                 table:[{litchi:"甜",lemon:"酸"}],
                 keys:["litchi","lemon"],
-                sheetName:"水果的味道",
-              ]
+                sheetName:"水果的味道"
+              }
             ]
           }
         }
