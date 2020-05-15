@@ -2,7 +2,7 @@
  * @Author: zouzheng
  * @Date: 2020-04-30 11:23:12
  * @LastEditors: zouzheng
- * @LastEditTime: 2020-05-09 17:26:38
+ * @LastEditTime: 2020-05-15 16:00:10
  * @Description: 这是XXX组件（页面）
  -->
 ## Introduction
@@ -12,7 +12,7 @@
 ## Features
 
 * 支持导出excel文件，并可设置列宽，边框，字体，字体颜色，字号，对齐方式，背景色等样式。
-* 支持excel文件导入，生成json数据，考虑到客户端机器性能，导出大量数据时，推荐拆分数据分成多个文件导出。
+* 支持excel文件导入，生成json数据，考虑到客户端机器性能，导入大量数据时，推荐拆分数据分成多个文件导入。
 
 ## [demo](https://pikaz-18.github.io/pikaz-excel-js/example/index.html)
 
