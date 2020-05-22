@@ -2,7 +2,7 @@
  * @Author: zouzheng
  * @Date: 2020-04-30 15:05:31
  * @LastEditors: zouzheng
- * @LastEditTime: 2020-05-09 15:47:35
+ * @LastEditTime: 2020-05-20 17:55:17
  * @Description: 这是excel导入组件（页面）
  -->
 <template>
@@ -56,6 +56,7 @@ export default {
     }
   },
   created () {
+    const instantiation = this
   },
   mounted () {
     this.imFile = document.getElementById("importFile")
