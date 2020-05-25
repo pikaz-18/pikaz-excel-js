@@ -2,7 +2,7 @@
  * @Author: zouzheng
  * @Date: 2020-04-30 15:05:31
  * @LastEditors: zouzheng
- * @LastEditTime: 2020-05-20 17:55:17
+ * @LastEditTime: 2020-05-25 17:03:24
  * @Description: 这是excel导入组件（页面）
  -->
 <template>
@@ -56,7 +56,6 @@ export default {
     }
   },
   created () {
-    const instantiation = this
   },
   mounted () {
     this.imFile = document.getElementById("importFile")
@@ -103,7 +102,7 @@ export default {
         return
       }
       const reader = new FileReader();
-      const $t = this;
+      const that = this;
       // 导入时
       reader.onprogress = e => {
         this.onProgress(e, file)
@@ -111,34 +110,34 @@ export default {
       // 导入完成
       reader.onload = e => {
         const data = e.target.result;
-        if ($t.rABS) {
-          $t.wb = XLSX.read(btoa(this.fixdata(data)), {
+        if (that.rABS) {
+          that.wb = XLSX.read(btoa(this.fixdata(data)), {
             // 手动转化
             type: "base64"
           });
         } else {
-          $t.wb = XLSX.read(data, {
+          that.wb = XLSX.read(data, {
             type: "binary"
           });
         }
         let json = []
         // 查询对应表名数据
-        if ($t.sheetNames) {
-          $t.sheetNames.forEach(name => {
-            const sheetIndex = $t.wb.SheetNames.findIndex(s => s === name)
+        if (that.sheetNames) {
+          that.sheetNames.forEach(name => {
+            const sheetIndex = that.wb.SheetNames.findIndex(s => s === name)
             if (sheetIndex !== -1) {
-              const data = XLSX.utils.sheet_to_json($t.wb.Sheets[$t.wb.SheetNames[sheetIndex]])
+              const data = XLSX.utils.sheet_to_json(that.wb.Sheets[that.wb.SheetNames[sheetIndex]])
               json.push({ sheetName: name, data })
             }
           })
         } else {
           // 查询全部数据
-          for (let i = 0; i < $t.wb.SheetNames.length; i++) {
-            const data = XLSX.utils.sheet_to_json($t.wb.Sheets[$t.wb.SheetNames[i]])
-            json.push({ sheetName: $t.wb.SheetNames[i], data })
-          }
+          that.wb.SheetNames.forEach(item => {
+            const data = XLSX.utils.sheet_to_json(that.wb.Sheets[item])
+            json.push({ sheetName: item, data })
+          })
         }
-        $t.dealFile(json, file); // 解析导入数据
+        that.dealFile(json, file); // 解析导入数据
       };
       if (this.rABS) {
         reader.readAsArrayBuffer(file);

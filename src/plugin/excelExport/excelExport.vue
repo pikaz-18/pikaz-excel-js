@@ -2,7 +2,7 @@
  * @Author: zouzheng
  * @Date: 2020-04-30 11:42:13
  * @LastEditors: zouzheng
- * @LastEditTime: 2020-05-15 16:09:21
+ * @LastEditTime: 2020-05-25 17:15:16
  * @Description: 这是excel导出组件（页面）
  -->
 <template>
@@ -12,12 +12,6 @@
 </template>
 
 <script>
-// workbook对象
-function Workbook () {
-  if (!(this instanceof Workbook)) return new Workbook();
-  this.SheetNames = [];
-  this.Sheets = {};
-}
 import { saveAs } from 'file-saver'
 import XLSX from 'yxg-xlsx-style'
 export default {
@@ -182,10 +176,12 @@ export default {
      * @return: 
      */
     s2ab (s) {
-      const buf = new ArrayBuffer(s.length);
-      const view = new Uint8Array(buf);
-      for (let i = 0; i != s.length; ++i) view[i] = s.charCodeAt(i) & 0xFF;
-      return buf;
+      const b = new ArrayBuffer(s.length);
+      const v = new Uint8Array(b);
+      for (let i = 0; i < s.length; i++) {
+        v[i] = s.charCodeAt(i) & 0xFF
+      }
+      return b;
     },
     /**
      * @name: 导出excel函数
@@ -210,6 +206,13 @@ export default {
       if (!this.sheet || this.sheet.length <= 0) {
         this.onError('Table data cannot be empty')
         return
+      }
+      // workbook对象
+      class Workbook {
+        constructor() {
+          this.SheetNames = [];
+          this.Sheets = {};
+        }
       }
       const wb = new Workbook()
       this.sheet.forEach((item, index) => {
@@ -332,7 +335,7 @@ export default {
           })
         }
 
-        /* add worksheet to workbook */
+        // 添加工作表
         wb.SheetNames.push(sheetName);
         wb.Sheets[sheetName] = ws;
         let dataInfo = wb.Sheets[wb.SheetNames[index]];
