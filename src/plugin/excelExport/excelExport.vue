@@ -2,7 +2,7 @@
  * @Author: zouzheng
  * @Date: 2020-04-30 11:42:13
  * @LastEditors: zouzheng
- * @LastEditTime: 2020-05-25 17:15:16
+ * @LastEditTime: 2020-05-26 12:36:31
  * @Description: 这是excel导出组件（页面）
  -->
 <template>
@@ -114,76 +114,6 @@ export default {
   },
   methods: {
     /**
-     * @name: 转化时间格式
-     * @param {type} 
-     * @return: 
-     */
-    datenum (v, date1904) {
-      if (date1904) v += 1462;
-      const epoch = Date.parse(v);
-      return (epoch - new Date(Date.UTC(1899, 11, 30))) / (24 * 60 * 60 * 1000);
-    },
-    /**
-     * @name: 设置数据类型
-     * @param {type} 
-     * @return: 
-     */
-    sheet_from_array_of_arrays (data, opts) {
-      let ws = {};
-      const range = {
-        s: {
-          c: 1000000000,
-          r: 1000000000
-        },
-        e: {
-          c: 0,
-          r: 0
-        }
-      };
-      for (let R = 0; R != data.length; ++R) {
-        for (let C = 0; C != data[R].length; ++C) {
-          if (range.s.r > R) range.s.r = R;
-          if (range.s.c > C) range.s.c = C;
-          if (range.e.r < R) range.e.r = R;
-          if (range.e.c < C) range.e.c = C;
-          let cell = {
-            v: data[R][C]
-          };
-          if (cell.v == null) continue;
-          let cell_ref = XLSX.utils.encode_cell({
-            c: C,
-            r: R
-          });
-
-          if (typeof cell.v === 'number') cell.t = 'n';
-          else if (typeof cell.v === 'boolean') cell.t = 'b';
-          else if (cell.v instanceof Date) {
-            cell.t = 'n';
-            cell.z = XLSX.SSF._table[14];
-            cell.v = this.datenum(cell.v);
-          } else cell.t = 's';
-
-          ws[cell_ref] = cell;
-        }
-      }
-      if (range.s.c < 1000000000) ws['!ref'] = XLSX.utils.encode_range(range);
-      return ws;
-    },
-
-    /**
-     * @name: 转换格式
-     * @param {type} 
-     * @return: 
-     */
-    s2ab (s) {
-      const b = new ArrayBuffer(s.length);
-      const v = new Uint8Array(b);
-      for (let i = 0; i < s.length; i++) {
-        v[i] = s.charCodeAt(i) & 0xFF
-      }
-      return b;
-    },
-    /**
      * @name: 导出excel函数
      * @param {type} 
      * @return: 
@@ -199,6 +129,7 @@ export default {
      * @return: 
      */
     exportExcel () {
+      // 处理数据前
       const beforeStart = this.beforeStart(this.bookType, this.filename, this.sheet)
       if (beforeStart === false) {
         return
@@ -207,14 +138,7 @@ export default {
         this.onError('Table data cannot be empty')
         return
       }
-      // workbook对象
-      class Workbook {
-        constructor() {
-          this.SheetNames = [];
-          this.Sheets = {};
-        }
-      }
-      const wb = new Workbook()
+      const wb = this.Workbook()
       this.sheet.forEach((item, index) => {
         let {
           // 标题
@@ -371,6 +295,20 @@ export default {
       this.writeExcel(wb, bookType, this.filename)
     },
     /**
+     * @name: workbook对象
+     * @param {type} 
+     * @return: 
+     */
+    Workbook () {
+      class WB {
+        constructor() {
+          this.SheetNames = [];
+          this.Sheets = {};
+        }
+      }
+      return new WB()
+    },
+    /**
      * @name: 导出excel文件
      * @param {type} 
      * @return: 
@@ -389,6 +327,76 @@ export default {
         return
       }
       saveAs(blob, `${filename}.${bookType}`);
+    },
+    /**
+     * @name: 转化时间格式
+     * @param {type} 
+     * @return: 
+     */
+    datenum (v, date1904) {
+      if (date1904) v += 1462;
+      const epoch = Date.parse(v);
+      return (epoch - new Date(Date.UTC(1899, 11, 30))) / (24 * 60 * 60 * 1000);
+    },
+    /**
+     * @name: 设置数据类型
+     * @param {type} 
+     * @return: 
+     */
+    sheet_from_array_of_arrays (data, opts) {
+      let ws = {};
+      const range = {
+        s: {
+          c: 1000000000,
+          r: 1000000000
+        },
+        e: {
+          c: 0,
+          r: 0
+        }
+      };
+      for (let R = 0; R != data.length; ++R) {
+        for (let C = 0; C != data[R].length; ++C) {
+          if (range.s.r > R) range.s.r = R;
+          if (range.s.c > C) range.s.c = C;
+          if (range.e.r < R) range.e.r = R;
+          if (range.e.c < C) range.e.c = C;
+          let cell = {
+            v: data[R][C]
+          };
+          if (cell.v == null) continue;
+          let cell_ref = XLSX.utils.encode_cell({
+            c: C,
+            r: R
+          });
+
+          if (typeof cell.v === 'number') cell.t = 'n';
+          else if (typeof cell.v === 'boolean') cell.t = 'b';
+          else if (cell.v instanceof Date) {
+            cell.t = 'n';
+            cell.z = XLSX.SSF._table[14];
+            cell.v = this.datenum(cell.v);
+          } else cell.t = 's';
+
+          ws[cell_ref] = cell;
+        }
+      }
+      if (range.s.c < 1000000000) ws['!ref'] = XLSX.utils.encode_range(range);
+      return ws;
+    },
+
+    /**
+     * @name: 转换格式
+     * @param {type} 
+     * @return: 
+     */
+    s2ab (s) {
+      const b = new ArrayBuffer(s.length);
+      const v = new Uint8Array(b);
+      for (let i = 0; i < s.length; i++) {
+        v[i] = s.charCodeAt(i) & 0xFF
+      }
+      return b;
     }
   },
   computed: {},
