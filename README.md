@@ -2,7 +2,7 @@
  * @Author: zouzheng
  * @Date: 2020-04-30 11:23:12
  * @LastEditors: zouzheng
- * @LastEditTime: 2020-05-15 16:01:49
+ * @LastEditTime: 2020-06-02 14:16:46
  * @Description: 这是XXX组件（页面）
  -->
 ## Introduction
@@ -265,7 +265,9 @@ pikaExportExcel|导出函数|--
 #### Attributes:
 参数|说明|类型|可选值|默认值
 -|-|-|-|-
-sheetNames|需要查询的表名，如['插件信息']|Array|--|--
+sheetNames|需要导入表的表名，如['插件信息']|Array|--|--
+removeBlankspace|是否移除数据中字符串的空格|Boolean|true/false|false
+removeSpecialchar|是否移除不同版本及环境下excel数据中出现的特殊不可见字符，如u202D等,使用此功能，返回的数据将被转化为字符串|Boolean|true/false|true
 before-import|文件导入前的钩子，参数file为导入文件|function(file)|--|--
 on-progress|文件导入时的钩子|function(event,file)|--|--
 on-change|文件状态改变时的钩子，导入文件、导入成功和导入失败时都会被调用|function(file)|--|--

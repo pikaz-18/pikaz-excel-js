@@ -2,7 +2,7 @@
  * @Author: zouzheng
  * @Date: 2020-04-30 15:05:31
  * @LastEditors: zouzheng
- * @LastEditTime: 2020-05-25 17:03:24
+ * @LastEditTime: 2020-06-02 14:07:36
  * @Description: 这是excel导入组件（页面）
  -->
 <template>
@@ -16,7 +16,18 @@
 import XLSX from 'xlsx'
 export default {
   props: {
+    // 表名
     sheetNames: Array,
+    // 是否移除空格
+    removeBlankspace: {
+      type: Boolean,
+      default: false
+    },
+    // 是否移出特殊字符
+    removeSpecialchar: {
+      type: Boolean,
+      default: true
+    },
     //  导入前
     beforeImport: {
       type: Function,
@@ -137,7 +148,8 @@ export default {
             json.push({ sheetName: item, data })
           })
         }
-        that.dealFile(json, file); // 解析导入数据
+        json = this.dealData(json)
+        that.importData(json, file);
       };
       if (this.rABS) {
         reader.readAsArrayBuffer(file);
@@ -146,11 +158,38 @@ export default {
       }
     },
     /**
-     * @name: 处理导入的数据
+     * @name: 处理导入数据
      * @param {type} 
      * @return: 
      */
-    dealFile (data, file) {
+    dealData (data) {
+      if (this.removeBlankspace || this.removeSpecialchar) {
+        const json = data.map(item => {
+          const itemData = item.data.map(i => {
+            Object.keys(i).forEach(key => {
+              if (this.removeBlankspace && Object.prototype.toString.call(i[key]) === "[object String]") {
+                // 字符串去除空格
+                i[key] = i[key].replace(/\s*/g, "")
+              }
+              // 去除特殊字符
+              if (this.removeSpecialchar && i[key] && Object.prototype.toString.call(i[key]) !== "[object Boolean]") {
+                i[key] = i[key].toString().replace(/[\u200b-\u200f\uFEFF\u202a-\u202e]/g, "")
+              }
+            })
+            return i
+          })
+          return { ...item, data: itemData }
+        })
+        return json
+      }
+      return data
+    },
+    /**
+     * @name: 导入数据
+     * @param {type} 
+     * @return: 
+     */
+    importData (data, file) {
       this.imFile.value = "";
       if (data.length <= 0) {
         // 导入失败
