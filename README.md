@@ -2,7 +2,7 @@
  * @Author: zouzheng
  * @Date: 2020-04-30 11:23:12
  * @LastEditors: zouzheng
- * @LastEditTime: 2020-06-02 14:16:46
+ * @LastEditTime: 2020-06-02 17:07:55
  * @Description: 这是XXX组件（页面）
  -->
 ## Introduction
@@ -15,6 +15,8 @@
 * 支持excel文件导入，生成json数据，考虑到客户端机器性能，导入大量数据时，推荐拆分数据分成多个文件导入。
 
 ## [demo](https://pikaz-18.github.io/pikaz-excel-js/example/index.html)
+
+### [demo代码](https://github.com/pikaz-18/pikaz-excel-js/tree/master/src/example/components)
 
 ## Installation
 
