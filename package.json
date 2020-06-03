@@ -11,8 +11,7 @@
   ],
   "files": [
     "lib",
-    "example",
-    "packages"
+    "example"
   ],
   "license": "MIT",
   "author": "pikaz",
