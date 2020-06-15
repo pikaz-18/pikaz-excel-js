@@ -88,7 +88,7 @@ on-error|导出失败的钩子，参数为错误信息|function(err)|--|--
 title|表格标题，自动设置合并，非必须项|string|--|--
 tHeader|表头，非必须项|array|--|--
 multiHeader|多级表头,即一个数组中包含多个表头数组，非必须项|array|--|--
-table|表格数据，如果无数据，设置为空字符""|array|--|--
+table|表格数据，如果无数据，设置为空字符""，避免使用null或undefined|array|--|--
 merges|合并单元格，合并的表头和表格多余数据项以空字符串填充，非必须项|array|--|--
 keys|数据键名，需与表头内容顺序对应|array|--|--
 colWidth|列宽，若不传，则列宽自适应，数据量多时推荐设置列宽|array|--|--
