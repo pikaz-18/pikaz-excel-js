@@ -2,7 +2,7 @@
  * @Author: zouzheng
  * @Date: 2020-04-30 11:23:12
  * @LastEditors: zouzheng
- * @LastEditTime: 2020-06-15 17:38:36
+ * @LastEditTime: 2020-06-15 18:05:52
  * @Description: 这是XXX组件（页面）
  -->
 ## Introduction
@@ -30,6 +30,8 @@ npm i -S pikaz-excel-js
 
 cdn
 ``` html
+<script type="text/javascript" src="https://cdn.jsdelivr.net/npm/pikaz-excel-js"></script>
+或者
 <script type="text/javascript" src="https://unpkg.com/pikaz-excel-js"></script>
 ```
 
