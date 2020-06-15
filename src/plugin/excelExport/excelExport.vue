@@ -2,7 +2,7 @@
  * @Author: zouzheng
  * @Date: 2020-04-30 11:42:13
  * @LastEditors: zouzheng
- * @LastEditTime: 2020-06-02 14:02:44
+ * @LastEditTime: 2020-06-15 11:26:53
  * @Description: 这是excel导出组件（页面）
  -->
 <template>
@@ -13,7 +13,7 @@
 
 <script>
 import { saveAs } from 'file-saver'
-import XLSX from 'yxg-xlsx-style'
+import XLSX from 'pikaz-xlsx-style'
 export default {
   props: {
     // 文件类型

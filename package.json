@@ -1,6 +1,6 @@
 {
   "name": "pikaz-excel-js",
-  "version": "0.2.11",
+  "version": "0.2.12",
   "description": "A Excel Component for Vue.js",
   "private": false,
   "main": "lib/PikazJsExcel.umd.min.js",
@@ -31,9 +31,9 @@
   "dependencies": {
     "core-js": "^3.6.4",
     "file-saver": "^2.0.2",
+    "pikaz-xlsx-style": "^0.1.1",
     "vue": "^2.6.11",
-    "xlsx": "^0.15.6",
-    "yxg-xlsx-style": "0.0.1"
+    "xlsx": "^0.15.6"
   },
   "devDependencies": {
     "@vue/cli-plugin-babel": "~4.3.0",
