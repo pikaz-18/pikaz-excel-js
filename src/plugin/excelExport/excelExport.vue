@@ -237,6 +237,7 @@ export default {
                 };
               } else {
                 try {
+                  // 解决报错
                   var strArr = val.split("");
                 } catch (e) {
                   var strArr = [];
