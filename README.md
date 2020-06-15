@@ -2,7 +2,7 @@
  * @Author: zouzheng
  * @Date: 2020-04-30 11:23:12
  * @LastEditors: zouzheng
- * @LastEditTime: 2020-06-02 17:07:55
+ * @LastEditTime: 2020-06-15 17:38:36
  * @Description: 这是XXX组件（页面）
  -->
 ## Introduction
@@ -26,6 +26,11 @@
 yarn add pikaz-excel-js
 
 npm i -S pikaz-excel-js
+```
+
+cdn
+``` html
+<script type="text/javascript" src="https://unpkg.com/pikaz-excel-js"></script>
 ```
 
 **请确保vue版本在2.0以上**
