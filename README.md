@@ -91,7 +91,7 @@ multiHeader|多级表头,即一个数组中包含多个表头数组，非必须�
 table|表格数据，如果无数据，设置为空字符""，避免使用null或undefined|array|--|--
 merges|合并单元格，合并的表头和表格多余数据项以空字符串填充，非必须项|array|--|--
 keys|数据键名，需与表头内容顺序对应|array|--|--
-colWidth|列宽，若不传，则列宽自适应，数据量多时推荐设置列宽|array|--|--
+colWidth|列宽，若不传，则列宽自适应（自动列宽时数据类型必须为string，如有其他数据类型，请手动设置列宽），数据量多时推荐设置列宽|array|--|--
 sheetName|表格名称|string|--|sheet
 globalStyle|表格全局样式，具体参数查看下方[表格全局样式](#global-style)|object|--|[表格全局样式](#global-style)
 cellStyle|单元格样式，每个单元格对象配置具体参数查看下方[单元格样式](#cell-style)|array|--|--
