@@ -2,7 +2,7 @@
  * @Author: zouzheng
  * @Date: 2020-04-30 11:42:13
  * @LastEditors: zouzheng
- * @LastEditTime: 2020-06-15 11:26:53
+ * @LastEditTime: 2020-08-10 23:10:18
  * @Description: 这是excel导出组件（页面）
  -->
 <template>
@@ -180,8 +180,16 @@ export default {
           const titleLength = Math.max(tHeaderLength, multiHeaderLength, keys.length)
           // 第一个元素为title，剩余以空字符串填充
           title = [title].concat(Array(titleLength - 1).fill(''))
-          // 处理标题的合并
-          const mergeSecond = String.fromCharCode(64 + titleLength) + '1'
+          // 处理标题的合并\
+          const cell=['A','B','C','D','E','F','G','H','I','J','K','L','M','N','O','P','Q','R','S','T','U','V','W','X','Y','Z']
+          let mergeSecond='A1'
+          if(titleLength>26){
+             const one=parseInt(titleLength/26)
+             const two=titleLength%26
+             mergeSecond=cell[one-1]+cell[two-1]+'1'
+          }else{
+             mergeSecond = cell[titleLength-1]+'1'
+          }
           const titleMerge = `A1:${mergeSecond}`
           if (!merges) {
             merges = [titleMerge]
@@ -227,7 +235,7 @@ export default {
                 'wch': nullstr
               };
             } else {
-              const strArr = val.split('')
+              const strArr = val.toString().split('')
               const pattern = new RegExp("[\u4E00-\u9FA5]+")
               let re = strArr.map(str => {
                 // 是否为中文
