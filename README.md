@@ -199,7 +199,7 @@ cellStyle|单元格样式，每个单元格对象配置具体参数查看下方[
         <td>horizontal</td>
         <td>水平对齐方式</td>
         <td>string</td>
-        <td>bottom/center/top</td>
+        <td>left/center/right</td>
         <td>center</td>
     </tr>
     <tr>
