@@ -35,6 +35,13 @@ npm i -S pikaz-excel-js
 <script type="text/javascript" src="https://unpkg.com/pikaz-excel-js"></script>
 ```
 
+vue文件引入
+```vue
+export default {
+  components: { ExcelExport: window.PikazJsExcel.ExcelExport }
+}
+```
+
 **请确保vue版本在2.0以上**
 
 ## For Vue-cli
