@@ -6,8 +6,9 @@
     "main": "lib/PikazJsExcel.umd.min.js",
     "keywords": [
         "excel",
-        "vue",
-        "components"
+        "js",
+        "xlsx",
+        "xls"
     ],
     "files": [
         "lib",
@@ -15,12 +16,7 @@
     ],
     "license": "MIT",
     "author": "pikaz",
-    "scripts": {
-        "serve": "vue-cli-service serve src/example/main.js",
-        "example": "vue-cli-service build --dest example src/example/main.js",
-        "lib": "vue-cli-service build --target lib --name PikazJsExcel --dest lib src/plugin/index.js",
-        "build": "vue-cli-service build --target lib --name PikazJsExcel --dest lib src/plugin/index.js && vue-cli-service build --dest example src/example/main.js"
-    },
+    "scripts": {},
     "repository": {
         "type": "git",
         "url": "https://github.com/pikaz-18/pikaz-excel-js.git"
@@ -29,16 +25,13 @@
         "url": "https://github.com/pikaz-18/pikaz-excel-js/issues"
     },
     "dependencies": {
-        "core-js": "^3.6.4",
         "file-saver": "^2.0.2",
         "pikaz-xlsx-style": "^0.1.1",
-        "vue": "^2.6.11",
         "xlsx": "^0.15.6"
     },
     "devDependencies": {
-        "@vue/cli-plugin-babel": "~4.3.0",
-        "@vue/cli-service": "~4.3.0",
-        "vue-template-compiler": "^2.6.11"
+        "webpack": "^4.46.0",
+        "webpack-cli": "^4.10.0"
     },
     "browserslist": [
         "> 1%",
