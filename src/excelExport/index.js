@@ -3,7 +3,7 @@
  * @Date: 2022-07-16 16:07:35
  * @Author: zouzheng
  * @LastEditors: zouzheng
- * @LastEditTime: 2022-08-08 01:07:33
+ * @LastEditTime: 2022-08-08 01:12:39
  */
 import XLSX from "xlsx";
 
@@ -283,10 +283,7 @@ const writeExcel = ({ wb, bookType, filename, beforeExport }) => {
     const blob = new Blob([s2ab(wbout)], {
         type: "application/octet-stream",
     });
-    const beforeExport = beforeExport(blob, bookType, filename);
-    if (beforeExport === false) {
-        return;
-    }
+    await beforeExport(blob, bookType, filename);
     saveAs(blob, `${filename}.${bookType}`);
 }
 
