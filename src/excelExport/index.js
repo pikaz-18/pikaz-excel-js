@@ -3,9 +3,10 @@
  * @Date: 2022-07-16 16:07:35
  * @Author: zouzheng
  * @LastEditors: zouzheng
- * @LastEditTime: 2022-08-08 01:12:39
+ * @LastEditTime: 2022-08-08 01:16:14
  */
-import XLSX from "xlsx";
+import { saveAs } from 'file-saver'
+import XLSX from 'pikaz-xlsx-style'
 
 // 默认配置
 const config = {
