@@ -3,8 +3,9 @@
  * @Date: 2022-07-16 16:07:35
  * @Author: zouzheng
  * @LastEditors: zouzheng
- * @LastEditTime: 2022-08-08 01:16:14
+ * @LastEditTime: 2022-08-15 01:10:08
  */
+import { createLetter } from "../common/index";
 import { saveAs } from 'file-saver'
 import XLSX from 'pikaz-xlsx-style'
 
@@ -82,8 +83,11 @@ const defaultSheet = {
     // 全局样式
     globalStyle: {},
     // 单元格样式
-    cellStyle: {},
+    cellStyle: [],
 }
+
+// 全字母
+const letterArr = createLetter()
 
 /**
      * @name:导出excel
@@ -102,9 +106,10 @@ const exportExcel = async (obj = {}) => {
         onError("Table data cannot be empty");
         return;
     }
-    const wb = Workbook();
+    // excel表内容
+    const wb = { SheetNames: [], Sheets: [] };
     sheet.forEach((item, index) => {
-        const {
+        let {
             // 标题
             title,
             // 多级表头
@@ -123,32 +128,33 @@ const exportExcel = async (obj = {}) => {
             globalStyle,
             // 单元格样式
             cellStyle,
-        } = { ...defaultSheet, ...item };
+        } = { ...JSON.parse(JSON.stringify(defaultSheet)), ...item };
         // 全局样式
-        const dgStyle = { ...defaultGlobalStyle, ...globalStyle };
+        const dgStyle = { ...JSON.parse(JSON.stringify(defaultGlobalStyle)), ...globalStyle };
+        // 处理合并项
+        merges = merges.map(merge => {
+            let result = merge
+            const mergeArr = merge.replace(/-/g, "").split(":")
+            // 若为纯数字，则转换为excel格式
+            if (mergeArr.every(m => /^\d+$/.test(m))) {
+                result = numToLetter(merge)
+            }
+            return result
+        })
+        console.log(merges);
+        let titleArr = []
         // 处理标题格式
         if (title) {
-            // 取多级表头中的最大值
-            const multiHeaderLength =
-                (tHeader && Math.max(...tHeader.map((m) => m.length))) || 0;
+            // 取表头中的最大值
+            const tHeaderLength = tHeader && tHeader.length || 0
             const titleLength = Math.max(
-                multiHeaderLength,
+                tHeaderLength,
                 keys.length
             );
             // 第一个元素为title，剩余以空字符串填充
-            title = [title].concat(Array(titleLength - 1).fill(""));
-            // 全字母
-            const cell = createLetter()
+            titleArr = [title, ...Array(titleLength - 1).fill("")]
             // 处理标题的合并
-            let mergeSecond = "A1";
-            if (titleLength > 26) {
-                const one = parseInt(titleLength / 26);
-                const two = titleLength % 26;
-                mergeSecond = cell[one - 1] + cell[two - 1] + "1";
-            } else {
-                mergeSecond = cell[titleLength - 1] + "1";
-            }
-            const titleMerge = `A1:${mergeSecond}`;
+            const titleMerge = numToLetter(`1-1:${titleLength}-1`);
             if (!merges) {
                 merges = [titleMerge];
             } else {
@@ -157,16 +163,11 @@ const exportExcel = async (obj = {}) => {
                 }
             }
         }
+        // console.log(merges);
         //表头对应字段
         const data = table.map((v) => keys.map((j) => v[j]));
-        // 多级表头
-        if (tHeader) {
-            // 倒序循环
-            for (let i = tHeader.length - 1; i >= 0; i--) {
-                data.unshift(tHeader[i]);
-            }
-        }
-        title && data.unshift(title);
+        tHeader && data.unshift(tHeader);
+        title && data.unshift(titleArr);
         const ws = sheet_from_array_of_arrays(data);
         if (merges && merges.length > 0) {
             if (!ws["!merges"]) ws["!merges"] = [];
@@ -228,7 +229,7 @@ const exportExcel = async (obj = {}) => {
         // 添加工作表
         wb.SheetNames.push(sheetName);
         wb.Sheets[sheetName] = ws;
-        let dataInfo = wb.Sheets[wb.SheetNames[index]];
+        const dataInfo = wb.Sheets[wb.SheetNames[index]];
         //全局样式
         (function () {
             Object.keys(dataInfo).forEach((i) => {
@@ -255,19 +256,31 @@ const exportExcel = async (obj = {}) => {
         })();
     });
     // 类型默认为xlsx
-    writeExcel({ wb, bookType, filename, beforeExport });
+    await writeExcel({ wb, bookType, filename, beforeExport });
 }
 
 /**
- * @description:依次生成26个字母 
+ * @description: 纯数字转换为excel格式行列合并项
+ * @param {*} num
  * @return {*}
  */
-const createLetter = () => {
-    const letters = [];
-    for (let i = 65; i < 91; i++) {
-        letters.push(String.fromCharCode(i));
-    }
-    return letters;
+const numToLetter = (merge = "1-1:2-1") => {
+    const mergeArr = merge.split(":").map(item => {
+        const [row, column] = item.split("-").map(s => Number(s))
+        const stringArray = [];
+        const numToLetters = (num) => {
+            const result = num - 1;
+            const first = parseInt(result / 26);
+            const second = result % 26;
+            stringArray.push(String.fromCharCode(64 + parseInt(second + 1)));
+            if (first > 0) {
+                numToLetters(first);
+            }
+        }
+        numToLetters(row);
+        return stringArray.reverse().join("") + column;
+    })
+    return mergeArr.join(":")
 }
 
 /**
@@ -275,7 +288,7 @@ const createLetter = () => {
  * @param {type}
  * @return:
  */
-const writeExcel = ({ wb, bookType, filename, beforeExport }) => {
+const writeExcel = async ({ wb, bookType, filename, beforeExport }) => {
     const wbout = XLSX.write(wb, {
         bookType: bookType,
         bookSST: false,

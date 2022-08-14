@@ -1,9 +1,9 @@
 {
   "name": "pikaz-excel-js",
   "version": "1.0.0",
-  "description": "A Excel Component JavaScript",
+  "description": "A Excel Component By JavaScript",
   "private": false,
-  "main": "lib/PikazJsExcel.umd.min.js",
+  "main": "lib/pikazExcel.js",
   "keywords": [
     "excel",
     "xlsx",
@@ -12,8 +12,7 @@
     "import"
   ],
   "files": [
-    "lib",
-    "example"
+    "lib"
   ],
   "license": "MIT",
   "author": "pikaz",

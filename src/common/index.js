@@ -3,7 +3,7 @@
  * @Date: 2022-07-30 15:21:55
  * @Author: zouzheng
  * @LastEditors: zouzheng
- * @LastEditTime: 2022-08-08 01:07:06
+ * @LastEditTime: 2022-08-15 00:36:54
  */
 const fileType = [
     { type: "xls", val: "d0cf11e0" },
@@ -34,4 +34,16 @@ export const checkFileType = (file) => {
         reader.onerror = reject;
         reader.readAsArrayBuffer(file.slice(0, 4));
     });
+}
+
+/**
+ * @description:依次生成26个字母 
+ * @return {*}
+ */
+export const createLetter = () => {
+    const letters = [];
+    for (let i = 65; i < 91; i++) {
+        letters.push(String.fromCharCode(i));
+    }
+    return letters;
 }
