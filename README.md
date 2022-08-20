@@ -2,7 +2,7 @@
  * @Author: zouzheng
  * @Date: 2020-04-30 11:23:12
  * @LastEditors: zouzheng
- * @LastEditTime: 2022-08-21 00:09:45
+ * @LastEditTime: 2022-08-21 00:14:41
  * @Description: 这是XXX组件（页面）
  -->
 
@@ -16,6 +16,11 @@
 
 * 支持导出excel文件，并可设置列宽，边框，字体，字体颜色，字号，对齐方式，背景色等样式。
 * 支持excel文件导入，生成json数据，考虑到客户端机器性能，导入大量数据时，推荐拆分数据分成多个文件导入。
+
+## Change
+
+* 新版本改为纯js库，支持多种框架入vue2,vue3,react及无依赖html中使用
+* 合并项与单元格格式中的单元格名称，现在支持传入数字，而非只能使用excel单元格名称，如第一行第三列，可使用A3或3-1
 
 ## [demo](https://pikaz-18.github.io/pikaz-excel-js/example/index.html)
 
