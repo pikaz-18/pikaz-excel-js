@@ -3,7 +3,7 @@
  * @Date: 2022-08-14 18:12:42
  * @Author: zouzheng
  * @LastEditors: zouzheng
- * @LastEditTime: 2022-08-21 00:10:38
+ * @LastEditTime: 2022-08-21 00:28:57
 -->
 <!DOCTYPE html>
 <html lang="en">
@@ -19,11 +19,16 @@
 <body>
     <div>
         <button id="excelExport">导出多种排版的excel</button>
-        <button id="excelImport">导入excel（支持xlsx与xls格式）</button>
+        <br />
+        <button id="excelImport">自动导入excel（支持xlsx与xls格式）</button>
+        <br/>
+        自定义导入
+        <input id="excelImport1" type="file" accept=".xlsx,.xls">
     </div>
     <script>
         const { excelExport, excelImport } = window.pikazExcelJs.default
         const excelExportBtn = document.getElementById("excelExport")
+        // 导出
         excelExportBtn.onclick = async () => {
             try {
                 await excelExport({
@@ -213,9 +218,18 @@
                 console.log(error);
             }
         }
+        // 自动导入
         const excelImportBtn = document.getElementById("excelImport")
-        excelImportBtn.onclick = () => {
-            excelImport().then(res => { })
+        excelImportBtn.onclick =async () => {
+           const result=await excelImport()
+           console.log(result);
+        }
+        // 自定义导入
+        const excelImport1Btn = document.getElementById("excelImport1")
+        excelImport1Btn.onchange =async (e) => {
+            const file= e.target.files[0]
+           const result =await excelImport({ file })
+           console.log(result);
         }
     </script>
 </body>
