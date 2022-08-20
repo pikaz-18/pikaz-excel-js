@@ -12,7 +12,8 @@
     "import"
   ],
   "files": [
-    "lib"
+    "lib",
+    "example"
   ],
   "license": "MIT",
   "author": "pikaz",
