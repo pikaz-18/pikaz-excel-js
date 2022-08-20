@@ -3,9 +3,8 @@
  * @Date: 2022-07-16 16:07:35
  * @Author: zouzheng
  * @LastEditors: zouzheng
- * @LastEditTime: 2022-08-15 01:10:08
+ * @LastEditTime: 2022-08-20 23:26:37
  */
-import { createLetter } from "../common/index";
 import { saveAs } from 'file-saver'
 import XLSX from 'pikaz-xlsx-style'
 
@@ -86,9 +85,6 @@ const defaultSheet = {
     cellStyle: [],
 }
 
-// 全字母
-const letterArr = createLetter()
-
 /**
      * @name:导出excel
      * @param {type}
@@ -130,7 +126,11 @@ const exportExcel = async (obj = {}) => {
             cellStyle,
         } = { ...JSON.parse(JSON.stringify(defaultSheet)), ...item };
         // 全局样式
-        const dgStyle = { ...JSON.parse(JSON.stringify(defaultGlobalStyle)), ...globalStyle };
+        const dgStyle = Object.keys(defaultGlobalStyle).reduce((total, key) => {
+            const globalStyleResult = globalStyle || {}
+            total[key] = { ...defaultGlobalStyle[key], ...globalStyleResult[key] }
+            return total
+        }, {})
         // 处理合并项
         merges = merges.map(merge => {
             let result = merge
@@ -139,9 +139,8 @@ const exportExcel = async (obj = {}) => {
             if (mergeArr.every(m => /^\d+$/.test(m))) {
                 result = numToLetter(merge)
             }
-            return result
+            return numToLetter(merge)
         })
-        console.log(merges);
         let titleArr = []
         // 处理标题格式
         if (title) {
@@ -163,10 +162,9 @@ const exportExcel = async (obj = {}) => {
                 }
             }
         }
-        // console.log(merges);
         //表头对应字段
         const data = table.map((v) => keys.map((j) => v[j]));
-        tHeader && data.unshift(tHeader);
+        tHeader.length && data.unshift(tHeader);
         title && data.unshift(titleArr);
         const ws = sheet_from_array_of_arrays(data);
         if (merges && merges.length > 0) {
@@ -245,13 +243,19 @@ const exportExcel = async (obj = {}) => {
                 return;
             }
             cellStyle.forEach((s) => {
-                const { border, font, alignment, fill } = s;
-                dataInfo[s.cell].s = {
-                    border: border === {} ? border : border || dgStyle.border,
-                    font: font || dgStyle.font,
-                    alignment: alignment || dgStyle.alignment,
-                    fill: fill || dgStyle.fill,
-                };
+                const { cell } = s
+                let cellEx = cell
+                const cellNum = cell.replace(/-/g, "")
+                // 若为纯数字，则转换为excel格式
+                if (/^\d+$/.test(cellNum)) {
+                    cellEx = numToLetter(cell)
+                }
+                console.log(cellEx);
+                dataInfo[cellEx].s = Object.keys(dgStyle).reduce((total, key) => {
+                    total[key] = { ...dgStyle[key], ...s[key] }
+                    return total
+                }, {});
+                console.log(dataInfo[cellEx].s);
             });
         })();
     });

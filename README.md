@@ -2,11 +2,11 @@
  * @Author: zouzheng
  * @Date: 2020-04-30 11:23:12
  * @LastEditors: zouzheng
- * @LastEditTime: 2022-08-15 01:15:19
+ * @LastEditTime: 2022-08-20 23:38:29
  * @Description: 这是XXX组件（页面）
  -->
 
-历史版本0.x.x文档请看[这里](https://pikaz-18.github.io/pikaz-excel-js/version/0.2.16-README.md)
+历史版本0.2.x文档请看[这里](https://pikaz-18.github.io/pikaz-excel-js/tree/master/version/0.2.16-README.md)
 
 ## Introduction
 
@@ -77,11 +77,11 @@ on-error|导出失败的钩子，参数为错误信息|function(err)|--|--
 参数|说明|类型|可选值|默认值
 -|-|-|-|-
 title|表格标题，自动设置合并，非必须项|string|--|--
-tHeader|可设置多级表头, 非必须项|array|--|--
+tHeader|表头, 非必须项|array|--|--
 table|表格数据，如果无数据，设置为空字符""，避免使用null或undefined|array|--|--
-merges|合并单元格，合并的表头和表格多余数据项以空字符串填充，非必须项|array|--|--
+merges|合并两个单元格之间所有的单位格，支持excel行列格式或数字格式（如合并第一排第一列至第一排第三列为'A1: A3'或'1-1:3-1'），合并的表格单元多余数据项以空字符串填充，非必须项|array|--|--
 keys|数据键名，需与表头内容顺序对应|array|--|--
-colWidth|列宽，若不传，则列宽自适应（自动列宽时数据类型必须为string，如有其他数据类型，请手动设置列宽），数据量多时推荐设置列宽|array|--|--
+colWidth|列宽，若不传，则列宽自适应（自动列宽时数据类型必须为string，如有其他数据类型，请手动设置列宽）|array|--|--
 sheetName|表格名称|string|--|sheet
 globalStyle|表格全局样式，具体参数查看下方[表格全局样式](#global-style)|object|--|[表格全局样式](#global-style)
 cellStyle|单元格样式，每个单元格对象配置具体参数查看下方[单元格样式](#cell-style)|array|--|--
@@ -223,7 +223,7 @@ cellStyle|单元格样式，每个单元格对象配置具体参数查看下方[
     </tr>
     <tr>
         <td>cell</td>
-        <td>单元格名称，如A1</td>
+        <td>单元格名称，支持excel单元格名称与数字行列格式，如'A3'或'3-1'</td>
         <td>string</td>
         <td>--</td>
         <td>--</td>

@@ -3,7 +3,7 @@
  * @Date: 2022-08-14 18:12:42
  * @Author: zouzheng
  * @LastEditors: zouzheng
- * @LastEditTime: 2022-08-15 01:11:54
+ * @LastEditTime: 2022-08-20 23:45:13
 -->
 <!DOCTYPE html>
 <html lang="en">
@@ -12,61 +12,203 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+    <title>pikaz-excel-js-demo</title>
     <script src="../lib/pikazExcel.js"></script>
 </head>
 
 <body>
     <div>
         <button id="excelExport1">导出多种排版的excel</button>
+        <button id="excelExport1">导入excel（支持xlsx与xls格式）</button>
     </div>
     <script>
         const { excelExport, excelImport } = window.pikazExcelJs.default
         const excelExport1 = document.getElementById("excelExport1")
         excelExport1.onclick = async () => {
             try {
-                excelExport({
+                await excelExport({
+                    // 表格数据
                     sheet: [
                         {
+                            // 表格标题
                             title: "水果的味道1",
-                            tHeader: ["荔枝", "菠萝蜜", "香蕉", "酸角"],
+                            // 表头
+                            tHeader: ["种类", "味道"],
+                            // 数据键名
+                            keys: ["name", "taste"],
+                            // 表格数据
                             table: [
                                 {
-                                    a: "甜",
-                                    b: "甜",
-                                    c: "甜",
-                                    d: "酸",
+                                    name: "荔枝",
+                                    taste: "甜",
+                                },
+                                {
+                                    name: "菠萝蜜",
+                                    taste: "甜",
+                                },
+                                {
+                                    name: "香蕉",
+                                    taste: "甜",
+                                },
+                                {
+                                    name: "酸角",
+                                    taste: "酸",
                                 },
                             ],
-                            keys: ["a", "b", "c", "d"],
                             sheetName: "水果的味道1",
                         },
                         {
-                            title: "水果的味道2",
-                            tHeader: ["种类", "味道"],
+                            // 表格标题
+                            title: "水果的产量2",
+                            // 表头
+                            tHeader: [
+                                "季度",
+                                "月份",
+                                "名称",
+                                "A果园产量（万吨）",
+                                "B果园产量（万吨）",
+                                "总产量合计（万吨）",
+                            ],
+                            // 数据键名
+                            keys: ["a", "b", "c", "d", "e", "f"],
+                            // 合并项
+                            merges: [
+                                "1-3:1-5",
+                                "1-6:1-8",
+                                "1-9:1-11",
+                                "1-12:1-14",
+                                "1-15:3-15",
+                            ],
+                            // 表格数据
                             table: [
                                 {
-                                    a: "荔枝",
-                                    b: "甜",
+                                    a: "第一季度",
+                                    b: "一月",
+                                    c: "番石榴",
+                                    d: "2",
+                                    e: "3",
+                                    f: "5",
                                 },
                                 {
-                                    a: "菠萝蜜",
-                                    b: "甜",
+                                    a: "",
+                                    b: "二月",
+                                    c: "桑葚",
+                                    d: "3",
+                                    e: "3",
+                                    f: "6",
                                 },
                                 {
-                                    a: "香蕉",
-                                    b: "甜",
+                                    a: "",
+                                    b: "三月",
+                                    c: "樱桃",
+                                    d: "2",
+                                    e: "2",
+                                    f: "4",
                                 },
                                 {
-                                    a: "酸角",
-                                    b: "酸",
+                                    a: "第二季度",
+                                    b: "四月",
+                                    c: "草莓",
+                                    d: "1",
+                                    e: "2",
+                                    f: "3",
+                                },
+                                {
+                                    a: "",
+                                    b: "五月",
+                                    c: "桃",
+                                    d: "2",
+                                    e: "2",
+                                    f: "4",
+                                },
+                                {
+                                    a: "",
+                                    b: "六月",
+                                    c: "西瓜",
+                                    d: "3",
+                                    e: "2",
+                                    f: "5",
+                                },
+                                {
+                                    a: "第三季度",
+                                    b: "七月",
+                                    c: "葡萄",
+                                    d: "3",
+                                    e: "3",
+                                    f: "6",
+                                },
+                                {
+                                    a: "",
+                                    b: "八月",
+                                    c: "木瓜",
+                                    d: "2",
+                                    e: "2",
+                                    f: "4",
+                                },
+                                {
+                                    a: "",
+                                    b: "九月",
+                                    c: "苹果",
+                                    d: "3",
+                                    e: "1",
+                                    f: "4",
+                                },
+                                {
+                                    a: "第四季度",
+                                    b: "十月",
+                                    c: "橙",
+                                    d: "3",
+                                    e: "2",
+                                    f: "5",
+                                },
+                                {
+                                    a: "",
+                                    b: "十一月",
+                                    c: "橘子",
+                                    d: "1",
+                                    e: "1",
+                                    f: "2",
+                                },
+                                {
+                                    a: "",
+                                    b: "十二月",
+                                    c: "柚子",
+                                    d: "4",
+                                    e: "1",
+                                    f: "5",
+                                },
+                                {
+                                    a: "全年累计产量",
+                                    b: "",
+                                    c: "",
+                                    d: "29",
+                                    e: "24",
+                                    f: "53",
                                 },
                             ],
-                            keys: ["a", "b"],
-                            sheetName: "水果的味道2",
-                        }
-                    ]
-                })
+                            // 表格全局样式
+                            globalStyle: { font: { sz: 16 } },
+                            // 单元格样式
+                            cellStyle: [
+                                { cell: "1-1", fill: { fgColor: { rgb: "B0C4DE" } } },
+                                { cell: "1-3", fill: { fgColor: { rgb: "7FFFAA" } } },
+                                { cell: "1-6", fill: { fgColor: { rgb: "FFA500" } } },
+                                { cell: "1-9", fill: { fgColor: { rgb: "F4A460" } } },
+                                { cell: "1-12", fill: { fgColor: { rgb: "00BFFF" } } },
+                                { cell: "1-15", fill: { fgColor: { rgb: "C0C0C0" } } },
+                            ],
+                            // 表名
+                            sheetName: "水果的产量2",
+                        },
+                    ],
+                    // 文件名称
+                    filename: "pikaz-excel-js-demo",
+                    // 处理数据之前的钩子
+                    beforeStart: (bookType, filename, sheet) => {
+                        console.log(bookType, filename, sheet);
+                        console.log("开始导出");
+                    },
+                });
             } catch (error) {
                 console.log(error);
             }
