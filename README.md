@@ -2,7 +2,7 @@
  * @Author: zouzheng
  * @Date: 2020-04-30 11:23:12
  * @LastEditors: zouzheng
- * @LastEditTime: 2022-08-20 23:53:56
+ * @LastEditTime: 2022-08-21 00:04:53
  * @Description: 这是XXX组件（页面）
  -->
 
@@ -39,7 +39,7 @@ npm i -S pikaz-excel-js
 <script type="text/javascript" src="https://unpkg.com/pikaz-excel-js"></script>
 ```
 
-### 导出
+### 导入
 
 ```js
   import {
@@ -235,50 +235,27 @@ cellStyle|单元格样式，每个单元格对象配置具体参数查看下方[
 
 <div id="export-method"></div>
 
-#### Methods:
-
-方法名|说明|参数
--|-|-
-pikaExportExcel|导出函数|--
-
-### Import:
-
-#### Typical use:
-
-```html
-<excel-import :on-success="onSuccess">
-    <div>导入</div>
-</excel-import>
-```
-
-.vue file:
+### 导出
 
 ```js
   import {
-      ExcelImport
+      excelImport
   } from 'pikaz-excel-js'
-  ...
-  export default {
-      components: {
-          ExcelImport,
-      },
-      methods: {
-          onSuccess(data, file) {
-              console.log(data)
-          }
-      }
-      ...
+  excelImport().then(res => {
+      console.log(res)
+  })
 ```
 
 #### Attributes:
 
 参数|说明|类型|可选值|默认值
 -|-|-|-|-
-sheetNames|需要导入表的表名，如['插件信息']|Array|--|--
+file|导入的文件，若不传，则自动调起上传功能|file|--|null
+sheetNames|需要导入表的表名，如['插件信息']，若不传则读取excel中所有表格，非必传|string[]|--|--
 removeBlankspace|是否移除数据中字符串的空格|Boolean|true/false|false
 removeSpecialchar|是否移除不同版本及环境下excel数据中出现的特殊不可见字符，如u202D等, 使用此功能，返回的数据将被转化为字符串|Boolean|true/false|true
-before-import|文件导入前的钩子，参数file为导入文件|function(file)|--|--
-on-progress|文件导入时的钩子|function(event, file)|--|--
-on-change|文件状态改变时的钩子，导入文件、导入成功和导入失败时都会被调用|function(file)|--|--
-on-success|文件导入成功的钩子，参数response为生成的json数据|function(response, file)|--|--
-on-error|文件导入失败的钩子，参数error为错误信息|function(error, file)|--|--
+beforeImport|文件导入前的钩子，参数file为导入文件|function(file)|--|--
+onProgress|文件导入时的钩子|function(event, file)|--|--
+onChange|文件状态改变时的钩子，导入文件、导入成功和导入失败时都会被调用|function(file)|--|--
+onSuccess|文件导入成功的钩子，参数response为生成的json数据|function(response, file)|--|--
+onError|文件导入失败的钩子，参数error为错误信息|function(error)|--|--
