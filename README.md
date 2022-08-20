@@ -2,11 +2,11 @@
  * @Author: zouzheng
  * @Date: 2020-04-30 11:23:12
  * @LastEditors: zouzheng
- * @LastEditTime: 2022-08-21 00:06:21
+ * @LastEditTime: 2022-08-21 00:09:45
  * @Description: 这是XXX组件（页面）
  -->
 
-历史版本0.2.x文档请看[这里](https://pikaz-18.github.io/pikaz-excel-js/tree/master/version/0.2.16-README.md)
+历史版本0.2.x文档请看[这里](https://github.com/pikaz-18/pikaz-excel-js/blob/master/version/0.2.16-README.md)
 
 ## Introduction
 
