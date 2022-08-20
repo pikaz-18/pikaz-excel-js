@@ -3,7 +3,7 @@
  * @Date: 2022-07-16 16:07:35
  * @Author: zouzheng
  * @LastEditors: zouzheng
- * @LastEditTime: 2022-08-20 23:26:37
+ * @LastEditTime: 2022-08-20 23:48:11
  */
 import { saveAs } from 'file-saver'
 import XLSX from 'pikaz-xlsx-style'
@@ -18,8 +18,8 @@ const config = {
     sheet: [],
     // 处理数据前// bookType:文件类型,filename:文件名,sheet:表格数据
     beforeStart: (bookType, filename, sheet) => { },
-    // 导出前// filename:文件名,sheet:表格数据,blob:文件流
-    beforeExport: (bookType, filename, blob) => { },
+    // 导出前// filename:文件名,bookType:文件类型,blob:文件流
+    beforeExport: (blob, bookType, filename) => { },
     // 导出错误
     onError: (err) => { },
 }
