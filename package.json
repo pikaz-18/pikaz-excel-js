@@ -34,7 +34,7 @@
   "dependencies": {
     "file-saver": "~2.0.5",
     "pikaz-xlsx-style": "^0.1.2",
-    "xlsx": "~0.15.6"
+    "xlsx": "~0.17.0"
   },
   "devDependencies": {
     "webpack": "^5.73.0",
