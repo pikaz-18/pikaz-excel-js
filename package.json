@@ -1,6 +1,6 @@
 {
   "name": "pikaz-excel-js",
-  "version": "1.0.1",
+  "version": "1.0.2",
   "description": "A Excel Component By JavaScript",
   "private": false,
   "main": "lib/pikazExcel.js",
