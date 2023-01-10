@@ -2,7 +2,7 @@
  * @Author: zouzheng
  * @Date: 2020-04-30 11:23:12
  * @LastEditors: zouzheng
- * @LastEditTime: 2023-01-11 00:39:10
+ * @LastEditTime: 2023-01-11 00:43:50
  * @Description: 这是XXX组件（页面）
  -->
 
@@ -116,7 +116,6 @@ cellStyle|单元格样式，每个单元格对象配置具体参数查看下方[
 <h5 id="global-style">表格全局样式</h5>
 
 <table>
-
     <tr>
         <td>参数</td>
         <td>属性名</td>
@@ -234,13 +233,11 @@ cellStyle|单元格样式，每个单元格对象配置具体参数查看下方[
         <td>true/false</td>
         <td>false</td>
     </tr>
-
 </table>
 
 <h5 id="cell-style">单元格样式</h5>
 
 <table>
-
     <tr>
         <td>参数</td>
         <td>说明</td>
@@ -255,7 +252,6 @@ cellStyle|单元格样式，每个单元格对象配置具体参数查看下方[
         <td>--</td>
         <td>--</td>
     </tr>
-
 </table>
 
 其他属性与[表格全局样式](#global-style)设置方式一致
