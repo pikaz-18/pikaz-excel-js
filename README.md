@@ -2,16 +2,9 @@
  * @Author: zouzheng
  * @Date: 2020-04-30 11:23:12
  * @LastEditors: zouzheng
- * @LastEditTime: 2022-08-21 00:33:54
+ * @LastEditTime: 2023-01-10 23:16:24
  * @Description: 这是XXX组件（页面）
  -->
-
-本插件库已更新至1.x版本，历史版本0.2.x文档请看[这里](https://github.com/pikaz-18/pikaz-excel-js/blob/master/version/0.2.16-README.md)
-## 版本更新
-
-* 新版本改为纯js库，支持多种框架如vue2,vue3,react及无其他依赖的html中使用
-* 合并项与单元格格式中的单元格名称，现在支持传入数字，而非只能使用excel单元格名称，如第一行第三列，可使用A3或3-1
-
 ## 介绍
 
 导入导出excel的js插件，在xlsx和xlsx-style的基础上做了简单的封装，开箱即用。
@@ -21,10 +14,14 @@
 * 支持导出excel文件，并可设置列宽，边框，字体，字体颜色，字号，对齐方式，背景色等样式。
 * 支持excel文件导入，生成json数据，考虑到客户端机器性能，导入大量数据时，推荐拆分数据分成多个文件导入。
 
+## 版本更新
+本插件库已更新至1.x版本，历史版本0.2.x文档请看[这里](https://github.com/pikaz-18/pikaz-excel-js/blob/master/version/0.2.16-README.md)
+* 新版本改为纯js库，支持多种框架如vue2,vue3,react及无其他依赖的html中使用
+* 合并项与单元格格式中的单元格名称，现在支持传入数字，而非只能使用excel单元格名称，如第一行第三列，可使用A3或3-1
 
-## [demo示例点击这里](https://pikaz-18.github.io/pikaz-excel-js/example/index.html)
+## [demo示例点击这里体验](https://pikaz-18.github.io/pikaz-excel-js/example/index.html)
 
-## [demo代码点击这里](https://github.com/pikaz-18/pikaz-excel-js/blob/master/example/index.html)
+## [demo代码点击这里一键copy](https://github.com/pikaz-18/pikaz-excel-js/blob/master/example/index.html)
 
 ## 安装
 
@@ -36,6 +33,10 @@ yarn add pikaz-excel-js
 npm i -S pikaz-excel-js
 ```
 
+```js
+import { excelExport,excelImport } from 'pikaz-excel-js'
+```
+
 ### 使用cdn引入
 
 ```html
@@ -44,8 +45,13 @@ npm i -S pikaz-excel-js
 <script type="text/javascript" src="https://unpkg.com/pikaz-excel-js"></script>
 ```
 
-### 导出
+```js
+const { excelExport, excelImport } = window.pikazExcelJs.default
+```
 
+### 导出函数
+
+#### 函数示例
 ```js
   import {
       excelExport
@@ -238,7 +244,9 @@ cellStyle|单元格样式，每个单元格对象配置具体参数查看下方[
 
 <div id="export-method"></div>
 
-### 导入
+### 导入函数
+
+#### 函数示例
 
 ```js
   import {
