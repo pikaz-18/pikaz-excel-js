@@ -22,9 +22,9 @@
 * 支持excel文件导入，生成json数据，考虑到客户端机器性能，导入大量数据时，推荐拆分数据分成多个文件导入。
 
 
-## [demo](https://pikaz-18.github.io/pikaz-excel-js/example/index.html)
+## [demo示例点击这里](https://pikaz-18.github.io/pikaz-excel-js/example/index.html)
 
-### [demo代码](https://github.com/pikaz-18/pikaz-excel-js/blob/master/example/index.html)
+## [demo代码点击这里](https://github.com/pikaz-18/pikaz-excel-js/blob/master/example/index.html)
 
 ## 安装
 
@@ -44,7 +44,7 @@ npm i -S pikaz-excel-js
 <script type="text/javascript" src="https://unpkg.com/pikaz-excel-js"></script>
 ```
 
-### 导入
+### 导出
 
 ```js
   import {
@@ -238,7 +238,7 @@ cellStyle|单元格样式，每个单元格对象配置具体参数查看下方[
 
 <div id="export-method"></div>
 
-### 导出
+### 导入
 
 ```js
   import {
