@@ -54,7 +54,7 @@ import {
 const {
     excelExport,
     excelImport
-} = window.pikazExcelJs.default
+} = window.pikazExcelJs
 ```
 
 ### 导出函数
