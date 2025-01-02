@@ -2,7 +2,7 @@
  * @Author: zouzheng
  * @Date: 2020-04-30 11:23:12
  * @LastEditors: Please set LastEditors
- * @LastEditTime: 2025-01-02 14:39:50
+ * @LastEditTime: 2025-01-02 14:47:00
  * @Description: 这是XXX组件（页面）
  -->
 
@@ -21,7 +21,7 @@
 
 - 新版本改为纯 js 库，支持多种框架如 vue2, vue3, react 及无其他依赖的 html 中使用
 - 合并项与单元格格式中的单元格名称，现在支持传入数字，而非只能使用 excel 单元格名称，如第一行第三列，可使用 A3 或 3-1
-- 新增 esmodule 模块化，支持如 vite 等使用
+- 新增 esmodule 模块化，支持 vite 等使用
 
 ## [demo 示例点击这里体验](https://pikaz-18.github.io/pikaz-excel-js/example/index.html)
 
