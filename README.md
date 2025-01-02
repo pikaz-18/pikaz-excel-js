@@ -1,33 +1,35 @@
 <!--
  * @Author: zouzheng
  * @Date: 2020-04-30 11:23:12
- * @LastEditors: zouzheng
- * @LastEditTime: 2023-01-11 00:43:50
+ * @LastEditors: Please set LastEditors
+ * @LastEditTime: 2025-01-02 14:39:50
  * @Description: 这是XXX组件（页面）
  -->
 
 ## 介绍
 
-导入导出excel的js插件，在xlsx和xlsx-style的基础上做了简单的封装，开箱即用。
+导入导出 excel 的 js 插件，在 xlsx 和 xlsx-style 的基础上做了简单的封装，开箱即用。
 
 ## 特性
 
-* 支持导出excel文件，并可设置列宽，边框，字体，字体颜色，字号，对齐方式，背景色等样式。
-* 支持excel文件导入，生成json数据，考虑到客户端机器性能，导入大量数据时，推荐拆分数据分成多个文件导入。
+- 支持导出 excel 文件，并可设置列宽，边框，字体，字体颜色，字号，对齐方式，背景色等样式。
+- 支持 excel 文件导入，生成 json 数据，考虑到客户端机器性能，导入大量数据时，推荐拆分数据分成多个文件导入。
 
 ## 版本更新
 
-本插件库已更新至1.x版本，历史版本0.2.x文档请看[这里](https://github.com/pikaz-18/pikaz-excel-js/blob/master/version/0.2.16-README.md)
-* 新版本改为纯js库，支持多种框架如vue2, vue3, react及无其他依赖的html中使用
-* 合并项与单元格格式中的单元格名称，现在支持传入数字，而非只能使用excel单元格名称，如第一行第三列，可使用A3或3-1
+本插件库已更新至 1.x 版本，历史版本 0.2.x 文档请看[这里](https://github.com/pikaz-18/pikaz-excel-js/blob/master/version/0.2.16-README.md)
 
-## [demo示例点击这里体验](https://pikaz-18.github.io/pikaz-excel-js/example/index.html)
+- 新版本改为纯 js 库，支持多种框架如 vue2, vue3, react 及无其他依赖的 html 中使用
+- 合并项与单元格格式中的单元格名称，现在支持传入数字，而非只能使用 excel 单元格名称，如第一行第三列，可使用 A3 或 3-1
+- 新增 esmodule 模块化，支持如 vite 等使用
 
-## [demo代码点击这里一键copy](https://github.com/pikaz-18/pikaz-excel-js/blob/master/example/index.html)
+## [demo 示例点击这里体验](https://pikaz-18.github.io/pikaz-excel-js/example/index.html)
+
+## [demo 代码点击这里一键 copy](https://github.com/pikaz-18/pikaz-excel-js/blob/master/example/index.html)
 
 ## 安装
 
-### 使用npm或yarn
+### 使用 npm 或 yarn
 
 ```bash
 yarn add pikaz-excel-js
@@ -36,25 +38,22 @@ npm i -S pikaz-excel-js
 ```
 
 ```js
-import {
-    excelExport,
-    excelImport
-} from 'pikaz-excel-js'
+import { excelExport, excelImport } from "pikaz-excel-js";
 ```
 
-### 使用cdn引入
+### 使用 cdn 引入
 
 ```html
-<script type="text/javascript" src="https://cdn.jsdelivr.net/npm/pikaz-excel-js"></script>
+<script
+  type="text/javascript"
+  src="https://cdn.jsdelivr.net/npm/pikaz-excel-js"
+></script>
 或者
 <script type="text/javascript" src="https://unpkg.com/pikaz-excel-js"></script>
 ```
 
 ```js
-const {
-    excelExport,
-    excelImport
-} = window.pikazExcelJs
+const { excelExport, excelImport } = window.pikazExcelJs;
 ```
 
 ### 导出函数
@@ -62,56 +61,57 @@ const {
 #### 函数示例
 
 ```js
-  import {
-      excelExport
-  } from 'pikaz-excel-js'
-  excelExport({
-      sheet: [{
-          // 表格标题
-          title: "水果的味道1",
-          // 表头
-          tHeader: ["种类", "味道"],
-          // 数据键名
-          keys: ["name", "taste"],
-          // 表格数据
-          table: [{
-                  name: "荔枝",
-                  taste: "甜",
-              },
-              {
-                  name: "菠萝蜜",
-                  taste: "甜",
-              }
-          ],
-          sheetName: "水果的味道1",
-      }]
-  })
+import { excelExport } from "pikaz-excel-js";
+excelExport({
+  sheet: [
+    {
+      // 表格标题
+      title: "水果的味道1",
+      // 表头
+      tHeader: ["种类", "味道"],
+      // 数据键名
+      keys: ["name", "taste"],
+      // 表格数据
+      table: [
+        {
+          name: "荔枝",
+          taste: "甜",
+        },
+        {
+          name: "菠萝蜜",
+          taste: "甜",
+        },
+      ],
+      sheetName: "水果的味道1",
+    },
+  ],
+});
 ```
 
 #### 函数参数:
 
-参数|说明|类型|可选值|默认值
--|-|-|-|-
-bookType|文件格式|string|xlsx|xlsx
-filename|文件名称|string|--|excel
-sheet|表格数据，每个表格数据对象配置具体看下方[表格配置](#table-setting)|object[]|--|--
-beforeStart|处理数据之前的钩子，参数为导出的文件格式，文件名，表格数据，若抛出Error则停止导出|function(bookType, filename, sheet)|--|--
-beforeExport|导出文件之前的钩子，参数为blob文件流，文件格式，文件名，若抛出Error则停止导出|function(blob, bookType, filename)|--|--
-onError|导出失败的钩子，参数为错误信息|function(err)|--|--
+| 参数         | 说明                                                                                | 类型                                | 可选值 | 默认值 |
+| ------------ | ----------------------------------------------------------------------------------- | ----------------------------------- | ------ | ------ |
+| bookType     | 文件格式                                                                            | string                              | xlsx   | xlsx   |
+| filename     | 文件名称                                                                            | string                              | --     | excel  |
+| sheet        | 表格数据，每个表格数据对象配置具体看下方[表格配置](#table-setting)                  | object[]                            | --     | --     |
+| beforeStart  | 处理数据之前的钩子，参数为导出的文件格式，文件名，表格数据，若抛出 Error 则停止导出 | function(bookType, filename, sheet) | --     | --     |
+| beforeExport | 导出文件之前的钩子，参数为 blob 文件流，文件格式，文件名，若抛出 Error 则停止导出   | function(blob, bookType, filename)  | --     | --     |
+| onError      | 导出失败的钩子，参数为错误信息                                                      | function(err)                       | --     | --     |
 
 <h5 id="table-setting">表格参数配置</h5>
 
-参数|说明|类型|可选值|默认值
--|-|-|-|-
-title|表格标题，自动设置合并，非必须项|string|--|--
-tHeader|表头, 非必须项|string[]|--|--
-table|表格数据，如果无数据，设置为空字符""，避免使用null或undefined|object[]|--|--
-merges|合并两个单元格之间所有的单位格，支持excel行列格式或数字格式（如合并第一排第一列至第一排第三列为'A1: A3'或'1-1:3-1'），合并的表格单元多余数据项以空字符串填充，非必须项|string[]|--|--
-keys|数据键名，需与表头内容顺序对应|string[]|--|--
-colWidth|列宽，若不传，则列宽自适应（自动列宽时数据类型必须为string，如有其他数据类型，请手动设置列宽）|number[]|--|--
-sheetName|表格名称|string|--|sheet
-globalStyle|表格全局样式，具体参数查看下方[表格全局样式](#global-style)|object|--|[表格全局样式](#global-style)
-cellStyle|单元格样式，每个单元格对象配置具体参数查看下方[单元格样式](#cell-style)|object[]|--|--
+| 参数        | 说明                                                                                                                                                                     | 类型     | 可选值 | 默认值                        |
+| ----------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------ | -------- | ------ | ----------------------------- |
+| title       | 表格标题，自动设置合并，非必须项                                                                                                                                         | string   | --     | --                            |
+| tHeader     | 表头, 非必须项                                                                                                                                                           | string[] | --     | --                            |
+| table       | 表格数据，如果无数据，设置为空字符""，避免使用 null 或 undefined                                                                                                         | object[] | --     | --                            |
+| merges      | 合并两个单元格之间所有的单位格，支持 excel 行列格式或数字格式（如合并第一排第一列至第一排第三列为'A1: A3'或'1-1:3-1'），合并的表格单元多余数据项以空字符串填充，非必须项 | string[] | --     | --                            |
+| keys        | 数据键名，需与表头内容顺序对应                                                                                                                                           | string[] | --     | --                            |
+| colWidth    | 列宽，若不传，则列宽自适应（自动列宽时数据类型必须为 string，如有其他数据类型，请手动设置列宽）                                                                          | number[] | --     | --                            |
+| sheetName   | 表格名称                                                                                                                                                                 | string   | --     | sheet                         |
+| globalStyle | 表格全局样式，具体参数查看下方[表格全局样式](#global-style)                                                                                                              | object   | --     | [表格全局样式](#global-style) |
+| cellStyle   | 单元格样式，每个单元格对象配置具体参数查看下方[单元格样式](#cell-style)                                                                                                  | object[] | --     | --                            |
 
 <h5 id="global-style">表格全局样式</h5>
 
@@ -263,24 +263,22 @@ cellStyle|单元格样式，每个单元格对象配置具体参数查看下方[
 #### 函数示例
 
 ```js
-  import {
-      excelImport
-  } from 'pikaz-excel-js'
-  excelImport().then(res => {
-      console.log(res)
-  })
+import { excelImport } from "pikaz-excel-js";
+excelImport().then((res) => {
+  console.log(res);
+});
 ```
 
 #### 函数参数:
 
-参数|说明|类型|可选值|默认值
--|-|-|-|-
-file|导入的文件，若不传，则自动调起上传功能|file|--|null
-sheetNames|需要导入表的表名，如['插件信息']，若不传则读取excel中所有表格，非必传|string[]|--|--
-removeBlankspace|是否移除数据中字符串的空格|Boolean|true/false|false
-removeSpecialchar|是否移除不同版本及环境下excel数据中出现的特殊不可见字符，如u202D等, 使用此功能，返回的数据将被转化为字符串|Boolean|true/false|true
-beforeImport|文件导入前的钩子，参数file为导入文件|function(file)|--|--
-onProgress|文件导入时的钩子|function(event, file)|--|--
-onChange|文件状态改变时的钩子，导入文件、导入成功和导入失败时都会被调用|function(file)|--|--
-onSuccess|文件导入成功的钩子，参数response为生成的json数据|function(response, file)|--|--
-onError|文件导入失败的钩子，参数error为错误信息|function(error)|--|--
+| 参数              | 说明                                                                                                           | 类型                     | 可选值     | 默认值 |
+| ----------------- | -------------------------------------------------------------------------------------------------------------- | ------------------------ | ---------- | ------ |
+| file              | 导入的文件，若不传，则自动调起上传功能                                                                         | file                     | --         | null   |
+| sheetNames        | 需要导入表的表名，如['插件信息']，若不传则读取 excel 中所有表格，非必传                                        | string[]                 | --         | --     |
+| removeBlankspace  | 是否移除数据中字符串的空格                                                                                     | Boolean                  | true/false | false  |
+| removeSpecialchar | 是否移除不同版本及环境下 excel 数据中出现的特殊不可见字符，如 u202D 等, 使用此功能，返回的数据将被转化为字符串 | Boolean                  | true/false | true   |
+| beforeImport      | 文件导入前的钩子，参数 file 为导入文件                                                                         | function(file)           | --         | --     |
+| onProgress        | 文件导入时的钩子                                                                                               | function(event, file)    | --         | --     |
+| onChange          | 文件状态改变时的钩子，导入文件、导入成功和导入失败时都会被调用                                                 | function(file)           | --         | --     |
+| onSuccess         | 文件导入成功的钩子，参数 response 为生成的 json 数据                                                           | function(response, file) | --         | --     |
+| onError           | 文件导入失败的钩子，参数 error 为错误信息                                                                      | function(error)          | --         | --     |
