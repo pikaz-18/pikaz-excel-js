@@ -292,17 +292,6 @@ var LZString = (function () {
   };
   return i;
 })();
-"function" == typeof define && define.amd
-  ? define(function () {
-      return LZString;
-    })
-  : "undefined" != typeof module && null != module
-  ? (module.exports = LZString)
-  : "undefined" != typeof angular &&
-    null != angular &&
-    angular.module("LZString", []).factory("LZString", function () {
-      return LZString;
-    });
 /**
  * @description: 创建module
  * @param {String} jsCore/js代码字符串
